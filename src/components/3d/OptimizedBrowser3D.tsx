@@ -172,7 +172,7 @@ const BrowserModel: React.FC = () => {
 
 const LoadingFallback: React.FC = () => (
   <Html center>
-    <div className="w-full h-full flex items-center justify-center">
+    <div className="flex items-center justify-center">
       <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
     </div>
   </Html>

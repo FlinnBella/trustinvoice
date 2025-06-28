@@ -22,83 +22,89 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
   const aboutRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    // Enhanced scroll-triggered animations
-    if (featuresRef.current) {
-      gsap.fromTo(featuresRef.current.children,
-        { y: 120, opacity: 0, scale: 0.8 },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 1.2,
-          stagger: 0.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: featuresRef.current,
-            start: "top 85%",
-            end: "bottom 15%",
-            toggleActions: "play none none reverse"
+    // Enhanced scroll-triggered animations with performance optimization
+    const mm = gsap.matchMedia();
+    
+    mm.add("(min-width: 768px)", () => {
+      if (featuresRef.current) {
+        gsap.fromTo(featuresRef.current.children,
+          { y: 120, opacity: 0, scale: 0.8 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 1.2,
+            stagger: 0.2,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: featuresRef.current,
+              start: "top 85%",
+              end: "bottom 15%",
+              toggleActions: "play none none reverse"
+            }
           }
-        }
-      );
-    }
+        );
+      }
 
-    if (securityRef.current) {
-      gsap.fromTo(securityRef.current.children,
-        { x: -120, opacity: 0, rotationY: -15 },
-        {
-          x: 0,
-          opacity: 1,
-          rotationY: 0,
-          duration: 1.4,
-          stagger: 0.3,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: securityRef.current,
-            start: "top 85%",
-            end: "bottom 15%",
-            toggleActions: "play none none reverse"
+      if (securityRef.current) {
+        gsap.fromTo(securityRef.current.children,
+          { x: -120, opacity: 0, rotationY: -15 },
+          {
+            x: 0,
+            opacity: 1,
+            rotationY: 0,
+            duration: 1.4,
+            stagger: 0.3,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: securityRef.current,
+              start: "top 85%",
+              end: "bottom 15%",
+              toggleActions: "play none none reverse"
+            }
           }
-        }
-      );
-    }
+        );
+      }
 
-    if (pricingRef.current) {
-      gsap.fromTo(pricingRef.current.children,
-        { y: 100, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          stagger: 0.15,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: pricingRef.current,
-            start: "top 85%",
-            end: "bottom 15%",
-            toggleActions: "play none none reverse"
+      if (pricingRef.current) {
+        gsap.fromTo(pricingRef.current.children,
+          { y: 100, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            stagger: 0.15,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: pricingRef.current,
+              start: "top 85%",
+              end: "bottom 15%",
+              toggleActions: "play none none reverse"
+            }
           }
-        }
-      );
-    }
+        );
+      }
 
-    if (aboutRef.current) {
-      gsap.fromTo(aboutRef.current.children,
-        { scale: 0.8, opacity: 0 },
-        {
-          scale: 1,
-          opacity: 1,
-          duration: 1.2,
-          ease: "back.out(1.7)",
-          scrollTrigger: {
-            trigger: aboutRef.current,
-            start: "top 85%",
-            end: "bottom 15%",
-            toggleActions: "play none none reverse"
+      if (aboutRef.current) {
+        gsap.fromTo(aboutRef.current.children,
+          { scale: 0.8, opacity: 0 },
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 1.2,
+            ease: "back.out(1.7)",
+            scrollTrigger: {
+              trigger: aboutRef.current,
+              start: "top 85%",
+              end: "bottom 15%",
+              toggleActions: "play none none reverse"
+            }
           }
-        }
-      );
-    }
+        );
+      }
+    });
+
+    return () => mm.revert();
   }, []);
 
   return (
@@ -116,7 +122,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 initial={{ opacity: 0, y: 60 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 1.2, ease: "easeOut" }}
-                className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight hero-title"
+                className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight hero-title will-change-transform"
               >
                 Security, Trust,
                 <br />
@@ -127,7 +133,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 1.2, ease: "easeOut" }}
-                className="text-xl text-gray-300 mb-12 leading-relaxed professional-font max-w-xl"
+                className="text-xl text-gray-300 mb-12 leading-relaxed professional-font max-w-xl will-change-opacity"
               >
                 Enterprise-grade invoice processing with uncompromising privacy.
                 Blockchain-secured smart contracts for seamless business transactions.
@@ -137,12 +143,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9, duration: 1.2, ease: "easeOut" }}
-                className="flex flex-col sm:flex-row gap-4 items-start"
+                className="flex flex-col sm:flex-row gap-4 items-start will-change-transform"
               >
                 <Button
                   onClick={onGetStarted}
                   size="lg"
-                  className="flex items-center space-x-3 px-8 py-4 text-lg bg-white text-black hover:bg-gray-100 transition-all duration-300 transform hover:scale-105"
+                  className="flex items-center space-x-3 px-8 py-4 text-lg bg-white text-black hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 focus:ring-4 focus:ring-white focus:ring-opacity-30"
                 >
                   <span>Get Started with an Invoice</span>
                   <ArrowRight size={20} />
@@ -151,7 +157,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="px-8 py-4 text-lg border-2 border-white text-white hover:bg-white hover:text-black transition-all duration-300"
+                  className="px-8 py-4 text-lg border-2 border-white text-white hover:bg-white hover:text-black transition-all duration-300 focus:ring-4 focus:ring-white focus:ring-opacity-30"
                 >
                   Schedule Demo
                 </Button>
@@ -163,7 +169,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
               initial={{ opacity: 0, x: 120, scale: 0.7 }}
               animate={{ opacity: 1, x: 0, scale: 1 }}
               transition={{ delay: 0.4, duration: 1.8, ease: "easeOut" }}
-              className="relative h-96 lg:h-[650px]"
+              className="relative h-96 lg:h-[650px] will-change-transform"
             >
               <OptimizedBrowser3D />
             </motion.div>
@@ -206,7 +212,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
             ].map((feature, index) => (
               <motion.div 
                 key={index} 
-                className="p-8 group bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-2xl border border-gray-700/50 backdrop-blur-sm hover:border-gray-600/50 transition-all duration-300"
+                className="p-8 group bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-2xl border border-gray-700/50 backdrop-blur-sm hover:border-gray-600/50 transition-all duration-300 will-change-transform"
                 whileHover={{ y: -10, scale: 1.02 }}
               >
                 <div className={`w-16 h-16 bg-gradient-to-br ${feature.color} rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300`}>
@@ -270,16 +276,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 
                 <div className="space-y-4 text-base font-mono">
                   <div className="text-gray-400">// Invoice Contract</div>
-                  <div className="text-blue-400">contract InvoicePayment &lbrace;</div>
+                  <div className="text-blue-400">contract InvoicePayment &#123;</div>
                   <div className="ml-6 text-gray-300">address payable recipient;</div>
                   <div className="ml-6 text-gray-300">uint256 amount;</div>
                   <div className="ml-6 text-gray-300">bool paid = false;</div>
                   <div className="ml-6 text-gray-300">uint256 dueDate;</div>
-                  <div className="ml-6 text-green-400">modifier onlyAfterDue() &lbrace;</div>
+                  <div className="ml-6 text-green-400">modifier onlyAfterDue() &#123;</div>
                   <div className="ml-12 text-gray-300">require(block.timestamp &gt; dueDate);</div>
                   <div className="ml-12 text-gray-300">_;</div>
-                  <div className="ml-6 text-green-400">&rbrace;</div>
-                  <div className="text-blue-400">&rbrace;</div>
+                  <div className="ml-6 text-green-400">&#125;</div>
+                  <div className="text-blue-400">&#125;</div>
                 </div>
               </div>
             </motion.div>
@@ -318,7 +324,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
             ].map((plan, index) => (
               <motion.div
                 key={index}
-                className={`p-8 rounded-2xl border backdrop-blur-sm ${
+                className={`p-8 rounded-2xl border backdrop-blur-sm will-change-transform ${
                   plan.popular 
                     ? 'bg-gradient-to-br from-blue-900/50 to-blue-800/50 border-blue-500/50' 
                     : 'bg-gradient-to-br from-gray-800/50 to-gray-900/50 border-gray-700/50'
@@ -370,7 +376,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
             ].map((stat, index) => (
               <motion.div
                 key={index}
-                className="text-center"
+                className="text-center will-change-transform"
                 whileHover={{ scale: 1.05 }}
               >
                 <div className="text-4xl font-bold text-white mb-2">{stat.number}</div>

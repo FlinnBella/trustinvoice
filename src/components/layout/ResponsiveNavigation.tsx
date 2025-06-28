@@ -20,11 +20,16 @@ export const ResponsiveNavigation: React.FC = () => {
 
   const scrollToSection = (sectionId: string) => {
     setIsMobileMenuOpen(false);
-    gsap.to(window, {
-      duration: 1,
-      scrollTo: { y: sectionId, offsetY: 80 },
-      ease: "power2.inOut"
-    });
+    
+    // Use native smooth scrolling for better performance
+    const element = document.querySelector(sectionId);
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start',
+        inline: 'nearest'
+      });
+    }
   };
 
   const toggleMobileMenu = () => {
@@ -47,25 +52,25 @@ export const ResponsiveNavigation: React.FC = () => {
               <div className="flex items-center space-x-12">
                 <button 
                   onClick={() => scrollToSection('#features')}
-                  className="text-gray-300 hover:text-white transition-colors duration-300 professional-font text-lg cursor-pointer border-none bg-transparent"
+                  className="text-gray-300 hover:text-white transition-colors duration-300 professional-font text-lg cursor-pointer border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-lg px-3 py-2"
                 >
                   Features
                 </button>
                 <button 
                   onClick={() => scrollToSection('#security')}
-                  className="text-gray-300 hover:text-white transition-colors duration-300 professional-font text-lg cursor-pointer border-none bg-transparent"
+                  className="text-gray-300 hover:text-white transition-colors duration-300 professional-font text-lg cursor-pointer border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-lg px-3 py-2"
                 >
                   Security
                 </button>
                 <button 
                   onClick={() => scrollToSection('#pricing')}
-                  className="text-gray-300 hover:text-white transition-colors duration-300 professional-font text-lg cursor-pointer border-none bg-transparent"
+                  className="text-gray-300 hover:text-white transition-colors duration-300 professional-font text-lg cursor-pointer border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-lg px-3 py-2"
                 >
                   Pricing
                 </button>
                 <button 
                   onClick={() => scrollToSection('#about')}
-                  className="text-gray-300 hover:text-white transition-colors duration-300 professional-font text-lg cursor-pointer border-none bg-transparent"
+                  className="text-gray-300 hover:text-white transition-colors duration-300 professional-font text-lg cursor-pointer border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-lg px-3 py-2"
                 >
                   About
                 </button>
@@ -76,7 +81,8 @@ export const ResponsiveNavigation: React.FC = () => {
             <div className="md:hidden">
               <button
                 onClick={toggleMobileMenu}
-                className="text-white p-2 rounded-lg hover:bg-gray-800 transition-colors"
+                className="text-white p-2 rounded-lg hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
+                aria-label="Toggle mobile menu"
               >
                 {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
@@ -91,31 +97,34 @@ export const ResponsiveNavigation: React.FC = () => {
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-40 md:hidden">
-          <div className="fixed inset-0 bg-black bg-opacity-50" onClick={toggleMobileMenu}></div>
-          <div className="fixed top-0 left-0 w-80 h-full bg-gray-900 shadow-xl transform transition-transform duration-300">
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm" 
+            onClick={toggleMobileMenu}
+          ></div>
+          <div className="fixed top-0 left-0 w-80 h-full bg-gray-900 shadow-xl transform transition-transform duration-300 border-r border-gray-700">
             <div className="p-6 pt-20">
               <div className="space-y-6">
                 <button 
                   onClick={() => scrollToSection('#features')}
-                  className="block w-full text-left text-white hover:text-gray-300 transition-colors duration-300 professional-font text-lg py-3 border-b border-gray-700"
+                  className="block w-full text-left text-white hover:text-gray-300 transition-colors duration-300 professional-font text-lg py-3 border-b border-gray-700 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-lg px-3"
                 >
                   Features
                 </button>
                 <button 
                   onClick={() => scrollToSection('#security')}
-                  className="block w-full text-left text-white hover:text-gray-300 transition-colors duration-300 professional-font text-lg py-3 border-b border-gray-700"
+                  className="block w-full text-left text-white hover:text-gray-300 transition-colors duration-300 professional-font text-lg py-3 border-b border-gray-700 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-lg px-3"
                 >
                   Security
                 </button>
                 <button 
                   onClick={() => scrollToSection('#pricing')}
-                  className="block w-full text-left text-white hover:text-gray-300 transition-colors duration-300 professional-font text-lg py-3 border-b border-gray-700"
+                  className="block w-full text-left text-white hover:text-gray-300 transition-colors duration-300 professional-font text-lg py-3 border-b border-gray-700 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-lg px-3"
                 >
                   Pricing
                 </button>
                 <button 
                   onClick={() => scrollToSection('#about')}
-                  className="block w-full text-left text-white hover:text-gray-300 transition-colors duration-300 professional-font text-lg py-3"
+                  className="block w-full text-left text-white hover:text-gray-300 transition-colors duration-300 professional-font text-lg py-3 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-lg px-3"
                 >
                   About
                 </button>
