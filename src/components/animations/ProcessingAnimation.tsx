@@ -33,17 +33,15 @@ export const ProcessingAnimation: React.FC<ProcessingAnimationProps> = ({ curren
             transition={{ duration: 0.3 }}
             className="flex flex-col items-center space-y-2"
           >
-            <motion.div
-              animate={isCurrent ? { rotate: [0, 360] } : {}}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            <div
               className={`p-4 rounded-full ${
-                isActive ? 'bg-black text-white' : 'bg-gray-200 text-gray-400'
+                isActive ? 'bg-f5f5f5 text-black' : 'bg-gray-800 text-gray-500'
               }`}
             >
               <Icon size={24} />
-            </motion.div>
+            </div>
             <span className={`text-sm font-medium ${
-              isActive ? 'text-black' : 'text-gray-400'
+              isActive ? 'text-f5f5f5' : 'text-gray-500'
             }`}>
               {step.label}
             </span>

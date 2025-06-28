@@ -177,10 +177,10 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-black">
       {/* Progress Indicator */}
       {currentStep > 0 && currentStep < steps.length - 1 && (
-        <div className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200">
+        <div className="fixed top-20 left-0 right-0 z-40 nav-bg">
           <div className="max-w-4xl mx-auto px-6 py-4">
             <ProcessingAnimation currentStep={Math.min(currentStep - 1, 4)} />
           </div>
@@ -195,7 +195,7 @@ function App() {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
           transition={{ duration: 0.3 }}
-          className={currentStep > 0 && currentStep < steps.length - 1 ? 'pt-24' : ''}
+          className={currentStep > 0 && currentStep < steps.length - 1 ? 'pt-32' : ''}
         >
           {renderStep()}
         </motion.div>

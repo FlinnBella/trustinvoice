@@ -22,8 +22,8 @@ export const Input: React.FC<InputProps> = ({
   return (
     <div className={`space-y-2 ${className}`}>
       {label && (
-        <label className="block text-sm font-medium text-gray-700">
-          {label} {required && <span className="text-red-500">*</span>}
+        <label className="block text-sm font-medium text-gray-300">
+          {label} {required && <span className="text-red-400">*</span>}
         </label>
       )}
       <input
@@ -32,7 +32,7 @@ export const Input: React.FC<InputProps> = ({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         required={required}
-        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+        className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:ring-2 focus:ring-f5f5f5 focus:border-transparent transition-all duration-200 text-f5f5f5 placeholder-gray-400"
       />
     </div>
   );

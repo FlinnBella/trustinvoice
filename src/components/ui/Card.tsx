@@ -12,8 +12,8 @@ export const Card: React.FC<CardProps> = ({ children, className = '', hover = fa
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={hover ? { y: -5, boxShadow: '0 20px 40px rgba(0,0,0,0.1)' } : {}}
-      className={`bg-white rounded-xl shadow-lg border border-gray-100 ${className}`}
+      whileHover={hover ? { y: -5, boxShadow: '0 20px 40px rgba(0,0,0,0.3)' } : {}}
+      className={`card-bg rounded-xl shadow-lg ${className}`}
     >
       {children}
     </motion.div>

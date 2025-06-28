@@ -21,9 +21,9 @@ export const Button: React.FC<ButtonProps> = ({
   const baseClasses = 'font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2';
   
   const variantClasses = {
-    primary: 'bg-black text-white hover:bg-gray-800 focus:ring-gray-500',
-    secondary: 'bg-gray-100 text-gray-900 hover:bg-gray-200 focus:ring-gray-500',
-    outline: 'border-2 border-black text-black hover:bg-black hover:text-white focus:ring-gray-500'
+    primary: 'bg-f5f5f5 text-black hover:bg-gray-200 focus:ring-gray-400',
+    secondary: 'bg-gray-800 text-f5f5f5 hover:bg-gray-700 focus:ring-gray-600',
+    outline: 'border-2 border-f5f5f5 text-f5f5f5 hover:bg-f5f5f5 hover:text-black focus:ring-gray-400'
   };
 
   const sizeClasses = {

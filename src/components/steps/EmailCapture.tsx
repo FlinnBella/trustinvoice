@@ -4,6 +4,8 @@ import { Mail, ArrowRight, ArrowLeft } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Card } from '../ui/Card';
+import { BackgroundCurves } from '../animations/BackgroundCurves';
+import { Navigation } from '../layout/Navigation';
 
 interface EmailCaptureProps {
   onNext: (email: string) => void;
@@ -32,11 +34,14 @@ export const EmailCapture: React.FC<EmailCaptureProps> = ({ onNext, onBack, init
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center px-6">
+    <div className="min-h-screen gradient-bg-subtle flex items-center justify-center px-6">
+      <BackgroundCurves />
+      <Navigation />
+      
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md"
+        className="w-full max-w-md relative z-10 mt-20"
       >
         <Card className="p-8">
           <div className="text-center mb-8">
@@ -44,15 +49,15 @@ export const EmailCapture: React.FC<EmailCaptureProps> = ({ onNext, onBack, init
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.2 }}
-              className="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-6"
+              className="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6"
             >
-              <Mail className="w-8 h-8 text-white" />
+              <Mail className="w-8 h-8 text-f5f5f5" />
             </motion.div>
             
-            <h2 className="text-2xl font-bold text-black mb-2">
+            <h2 className="text-2xl font-bold text-f5f5f5 mb-2">
               Let's Get Started
             </h2>
-            <p className="text-gray-600">
+            <p className="text-gray-300">
               Enter your email to begin creating your secure invoice
             </p>
           </div>
@@ -89,7 +94,7 @@ export const EmailCapture: React.FC<EmailCaptureProps> = ({ onNext, onBack, init
           </div>
 
           <div className="mt-8 text-center">
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-400">
               Your email is encrypted and never shared with third parties
             </p>
           </div>
