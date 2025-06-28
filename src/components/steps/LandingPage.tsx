@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Shield, ArrowRight, Lock, Zap, Globe, Upload, FileText, TrendingUp, Users, Award } from 'lucide-react';
+import { Shield, ArrowRight, Lock, Zap, Globe, Upload, FileText, TrendingUp, Users, Award, CheckCircle } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { FixedMcKinseyCurves } from '../animations/FixedMcKinseyCurves';
 import { ResponsiveNavigation } from '../layout/ResponsiveNavigation';
@@ -461,4 +461,81 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
       <section id="about" ref={aboutRef} className="relative z-10 px-6 py-32">
         <div className="max-w-7xl mx-auto text-center">
           <motion.div className="mb-8">
-            <span className="inline-block px-4 py-2 bg-gradient-to-r from-slate-600/20 to-slate-500/20 border border-slate-400/30 rounded-full text-sm mckinsey-font-medium text-slate-200
+            <span className="inline-block px-4 py-2 bg-gradient-to-r from-slate-600/20 to-slate-500/20 border border-slate-400/30 rounded-full text-sm mckinsey-font-medium text-slate-200 backdrop-blur-sm">
+              Our Story
+            </span>
+          </motion.div>
+
+          <h2 className="text-display-2 text-white mb-8 mckinsey-font-semibold">
+            Built by
+            <span className="mckinsey-text-gradient"> Innovators</span>
+          </h2>
+          <p className="text-body-large text-slate-300 mb-16 mckinsey-font max-w-4xl mx-auto leading-relaxed">
+            Founded by a team of blockchain pioneers and enterprise software veterans, 
+            we're dedicated to transforming how businesses handle financial transactions 
+            through cutting-edge technology and uncompromising security standards.
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-12 max-w-5xl mx-auto">
+            {[
+              {
+                icon: TrendingUp,
+                title: 'Performance Excellence',
+                description: 'Industry-leading uptime and processing speeds that scale with your business growth.',
+                metric: '99.9% Uptime'
+              },
+              {
+                icon: Users,
+                title: 'Global Trust Network',
+                description: 'Trusted by enterprises worldwide for mission-critical financial operations.',
+                metric: '10,000+ Companies'
+              },
+              {
+                icon: Award,
+                title: 'Innovation Leadership',
+                description: 'Recognized industry leader in blockchain-based financial technology solutions.',
+                metric: '15+ Awards'
+              }
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                className="text-center group"
+                whileHover={{ y: -8 }}
+              >
+                <div className="w-20 h-20 bg-gradient-to-r from-blue-500/20 to-teal-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-blue-400/30 group-hover:scale-110 transition-transform duration-300">
+                  <item.icon className="w-10 h-10 text-blue-300" />
+                </div>
+                <h3 className="text-heading-2 text-white mb-4 mckinsey-font-semibold">{item.title}</h3>
+                <p className="text-slate-300 mb-4 mckinsey-font leading-relaxed">{item.description}</p>
+                <div className="text-blue-400 mckinsey-font-semibold">{item.metric}</div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="relative z-10 px-6 py-16 border-t border-slate-700/50">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="mb-8">
+            <h3 className="text-heading-1 text-white mb-4 mckinsey-font-semibold">Ready to Transform Your Business?</h3>
+            <p className="text-slate-300 mb-8 mckinsey-font max-w-2xl mx-auto">
+              Join thousands of enterprises already leveraging our blockchain-powered invoicing platform.
+            </p>
+            <Button
+              onClick={onGetStarted}
+              size="lg"
+              className="px-12 py-4 bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700 text-white mckinsey-font-semibold"
+            >
+              Get Started Today
+            </Button>
+          </div>
+          
+          <div className="pt-8 border-t border-slate-700/50 text-slate-400 mckinsey-font text-sm">
+            <p>&copy; 2024 TrustInvoice. All rights reserved. Built with enterprise-grade security.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
