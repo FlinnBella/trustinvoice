@@ -350,7 +350,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                   <div className="ml-4 text-slate-300">bool private paid = false;</div>
                   <div className="ml-4 text-slate-300">uint256 immutable dueDate;</div>
                   <div className="ml-4 text-green-300">modifier onlyAfterDue() &#123;</div>
-                  <div className="ml-8 text-slate-300">require(block.timestamp > dueDate);</div>
+                  <div className="ml-8 text-slate-300"\>require(block.timestamp &gt; dueDate);</div>
                   <div className="ml-8 text-slate-300">_;</div>
                   <div className="ml-4 text-green-300">&#125;</div>
                   <div className="ml-4 text-yellow-300">event PaymentExecuted(uint256 amount);</div>
@@ -461,48 +461,4 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
       <section id="about" ref={aboutRef} className="relative z-10 px-6 py-32">
         <div className="max-w-7xl mx-auto text-center">
           <motion.div className="mb-8">
-            <span className="inline-block px-4 py-2 bg-gradient-to-r from-slate-600/20 to-slate-500/20 border border-slate-400/30 rounded-full text-sm mckinsey-font-medium text-slate-200 backdrop-blur-sm">
-              Our Impact
-            </span>
-          </motion.div>
-
-          <h2 className="text-display-2 text-white mb-8 mckinsey-font-semibold">
-            Trusted by
-            <span className="mckinsey-text-gradient"> Industry Leaders</span>
-          </h2>
-          <p className="text-body-large text-slate-300 mckinsey-font max-w-4xl mx-auto leading-relaxed mb-16">
-            Built by financial technology experts and blockchain pioneers, TrustInvoice represents 
-            the convergence of traditional business processes with cutting-edge distributed ledger technology.
-          </p>
-          
-          <div className="grid md:grid-cols-4 gap-8 max-w-5xl mx-auto">
-            {[
-              { number: '50K+', label: 'Secure Transactions', icon: TrendingUp },
-              { number: '99.99%', label: 'Uptime Guarantee', icon: Shield },
-              { number: '24/7', label: 'Expert Support', icon: Users },
-              { number: '150+', label: 'Enterprise Clients', icon: Award }
-            ].map((stat, index) => (
-              <motion.div
-                key={index}
-                className="text-center will-change-transform group"
-                whileHover={{ scale: 1.05 }}
-              >
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-500/20 to-teal-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-blue-400/30 group-hover:border-blue-400/50 transition-colors duration-300">
-                  <stat.icon className="w-8 h-8 text-blue-300" />
-                </div>
-                <div className="text-display-1 text-white mb-2 mckinsey-font-semibold">{stat.number}</div>
-                <div className="text-slate-400 mckinsey-font">{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-};
-
-const CheckCircle: React.FC<{ className?: string }> = ({ className }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 20 20">
-    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-  </svg>
-);
+            <span className="inline-block px-4 py-2 bg-gradient-to-r from-slate-600/20 to-slate-500/20 border border-slate-400/30 rounded-full text-sm mckinsey-font-medium text-slate-200
