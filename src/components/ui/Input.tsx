@@ -22,7 +22,7 @@ export const Input: React.FC<InputProps> = ({
   return (
     <div className={`space-y-2 ${className}`}>
       {label && (
-        <label className="block text-sm font-medium text-gray-300">
+        <label className="block text-sm font-medium text-gray-300 professional-font">
           {label} {required && <span className="text-red-400">*</span>}
         </label>
       )}
@@ -32,7 +32,7 @@ export const Input: React.FC<InputProps> = ({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         required={required}
-        className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:ring-2 focus:ring-f5f5f5 focus:border-transparent transition-all duration-200 text-f5f5f5 placeholder-gray-400"
+        className="w-full px-4 py-3 bg-gray-800/80 border border-gray-600 rounded-lg focus:ring-2 focus:ring-white focus:border-transparent transition-all duration-300 text-white placeholder-gray-400 professional-font backdrop-blur-sm"
       />
     </div>
   );

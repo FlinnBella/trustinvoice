@@ -18,12 +18,12 @@ export const Button: React.FC<ButtonProps> = ({
   disabled = false,
   className = ''
 }) => {
-  const baseClasses = 'font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2';
+  const baseClasses = 'font-medium rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 transform hover:scale-105 active:scale-95';
   
   const variantClasses = {
-    primary: 'bg-f5f5f5 text-black hover:bg-gray-200 focus:ring-gray-400',
-    secondary: 'bg-gray-800 text-f5f5f5 hover:bg-gray-700 focus:ring-gray-600',
-    outline: 'border-2 border-f5f5f5 text-f5f5f5 hover:bg-f5f5f5 hover:text-black focus:ring-gray-400'
+    primary: 'bg-white text-black hover:bg-gray-100 focus:ring-gray-400 shadow-lg',
+    secondary: 'bg-gray-800 text-white hover:bg-gray-700 focus:ring-gray-600 shadow-lg',
+    outline: 'border-2 border-white text-white hover:bg-white hover:text-black focus:ring-gray-400 shadow-lg'
   };
 
   const sizeClasses = {
@@ -34,11 +34,11 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <motion.button
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
       onClick={onClick}
       disabled={disabled}
-      className={`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
+      className={`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${disabled ? 'opacity-50 cursor-not-allowed transform-none hover:scale-100' : ''} ${className}`}
     >
       {children}
     </motion.button>
