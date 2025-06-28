@@ -7,7 +7,7 @@ export default {
         'f5f5f5': '#f5f5f5',
       },
       fontFamily: {
-        'serif': ['Crimson Text', 'Georgia', 'Times New Roman', 'serif'],
+        'serif': ['EB Garamond', 'Georgia', 'Times New Roman', 'serif'],
       },
     },
   },

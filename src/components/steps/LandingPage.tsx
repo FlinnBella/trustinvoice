@@ -2,8 +2,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Shield, ArrowRight, Lock, Zap, Globe } from 'lucide-react';
 import { Button } from '../ui/Button';
-import { BackgroundCurves } from '../animations/BackgroundCurves';
+import { McKinseyCurves } from '../animations/McKinseyCurves';
 import { Navigation } from '../layout/Navigation';
+import { Browser3D } from '../3d/Browser3D';
 
 interface LandingPageProps {
   onGetStarted: () => void;
@@ -12,56 +13,69 @@ interface LandingPageProps {
 export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
-      <BackgroundCurves />
+      <McKinseyCurves />
       <Navigation />
       
       {/* Hero Section */}
       <main className="relative z-10 px-6 pt-32 pb-20">
         <div className="max-w-7xl mx-auto">
-          <div className="max-w-4xl">
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-6xl md:text-7xl font-bold text-f5f5f5 mb-8 leading-tight"
-            >
-              Security, Trust,
-              <br />
-              <span className="text-gray-400">Reliability</span>
-            </motion.h1>
-            
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="text-xl text-gray-300 mb-12 max-w-2xl leading-relaxed"
-            >
-              Enterprise-grade invoice processing with uncompromising privacy.
-              Blockchain-secured smart contracts for seamless business transactions.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="flex flex-col sm:flex-row gap-4 items-start"
-            >
-              <Button
-                onClick={onGetStarted}
-                size="lg"
-                className="flex items-center space-x-2 px-8 py-4"
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left side - Text content */}
+            <div className="max-w-2xl">
+              <motion.h1
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-5xl md:text-6xl lg:text-7xl font-bold text-f5f5f5 mb-8 leading-tight hero-title"
               >
-                <span>Get Started with an Invoice</span>
-                <ArrowRight size={20} />
-              </Button>
+                Security, Trust,
+                <br />
+                <span className="text-gray-400">Reliability</span>
+              </motion.h1>
               
-              <Button
-                variant="outline"
-                size="lg"
-                className="px-8 py-4"
+              <motion.p
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="text-xl text-gray-300 mb-12 leading-relaxed professional-serif"
               >
-                Schedule Demo
-              </Button>
+                Enterprise-grade invoice processing with uncompromising privacy.
+                Blockchain-secured smart contracts for seamless business transactions.
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7 }}
+                className="flex flex-col sm:flex-row gap-4 items-start"
+              >
+                <Button
+                  onClick={onGetStarted}
+                  size="lg"
+                  className="flex items-center space-x-2 px-8 py-4"
+                >
+                  <span>Get Started with an Invoice</span>
+                  <ArrowRight size={20} />
+                </Button>
+                
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="px-8 py-4"
+                >
+                  Schedule Demo
+                </Button>
+              </motion.div>
+            </div>
+
+            {/* Right side - 3D Browser */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4, duration: 1 }}
+              className="relative h-96 lg:h-[500px]"
+            >
+              <Browser3D />
             </motion.div>
           </div>
         </div>
@@ -76,10 +90,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
             viewport={{ once: true }}
             className="mb-16 max-w-4xl"
           >
-            <h2 className="text-4xl font-bold text-f5f5f5 mb-4">
+            <h2 className="text-4xl font-bold text-f5f5f5 mb-4 professional-serif">
               Secure Document Processing
             </h2>
-            <p className="text-xl text-gray-300 max-w-2xl">
+            <p className="text-xl text-gray-300 max-w-2xl professional-serif">
               Advanced features designed for modern businesses
             </p>
           </motion.div>
@@ -111,8 +125,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 className="p-8"
               >
                 <feature.icon className="w-12 h-12 text-f5f5f5 mb-6" />
-                <h3 className="text-xl font-semibold text-f5f5f5 mb-4">{feature.title}</h3>
-                <p className="text-gray-300 leading-relaxed">{feature.description}</p>
+                <h3 className="text-xl font-semibold text-f5f5f5 mb-4 professional-serif">{feature.title}</h3>
+                <p className="text-gray-300 leading-relaxed professional-serif">{feature.description}</p>
               </motion.div>
             ))}
           </div>
@@ -128,10 +142,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl font-bold text-f5f5f5 mb-6">
+              <h2 className="text-4xl font-bold text-f5f5f5 mb-6 professional-serif">
                 Blockchain-Secured Smart Contracts
               </h2>
-              <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+              <p className="text-xl text-gray-300 mb-8 leading-relaxed professional-serif">
                 Every invoice is protected by immutable smart contracts on Ethereum and Polygon networks,
                 ensuring transparency and automatic execution of payment terms.
               </p>
@@ -152,7 +166,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                     className="flex items-center space-x-3"
                   >
                     <CheckCircle className="w-5 h-5 text-green-400" />
-                    <span className="text-gray-300">{item}</span>
+                    <span className="text-gray-300 professional-serif">{item}</span>
                   </motion.div>
                 ))}
               </div>
@@ -167,7 +181,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
               <div className="bg-gray-900 p-8 rounded-xl shadow-lg border border-gray-700">
                 <div className="flex items-center space-x-3 mb-6">
                   <Shield className="w-8 h-8 text-f5f5f5" />
-                  <span className="text-lg font-semibold text-f5f5f5">Smart Contract</span>
+                  <span className="text-lg font-semibold text-f5f5f5 professional-serif">Smart Contract</span>
                 </div>
                 
                 <div className="space-y-4 text-sm code-font">
