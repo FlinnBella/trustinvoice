@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Mail, ArrowRight, ArrowLeft } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
-import { Card } from '../ui/Card';
 import { BackgroundCurves } from '../animations/BackgroundCurves';
 import { Navigation } from '../layout/Navigation';
 
@@ -34,7 +33,7 @@ export const EmailCapture: React.FC<EmailCaptureProps> = ({ onNext, onBack, init
   };
 
   return (
-    <div className="min-h-screen gradient-bg-subtle flex items-center justify-center px-6">
+    <div className="min-h-screen bg-black flex items-center justify-center px-6">
       <BackgroundCurves />
       <Navigation />
       
@@ -43,7 +42,7 @@ export const EmailCapture: React.FC<EmailCaptureProps> = ({ onNext, onBack, init
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md relative z-10 mt-20"
       >
-        <Card className="p-8">
+        <div className="p-8">
           <div className="text-center mb-8">
             <motion.div
               initial={{ scale: 0 }}
@@ -98,7 +97,7 @@ export const EmailCapture: React.FC<EmailCaptureProps> = ({ onNext, onBack, init
               Your email is encrypted and never shared with third parties
             </p>
           </div>
-        </Card>
+        </div>
       </motion.div>
     </div>
   );

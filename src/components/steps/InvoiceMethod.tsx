@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Upload, FileText, ArrowRight, ArrowLeft } from 'lucide-react';
 import { Button } from '../ui/Button';
-import { Card } from '../ui/Card';
 import { BackgroundCurves } from '../animations/BackgroundCurves';
 import { Navigation } from '../layout/Navigation';
 
@@ -13,7 +12,7 @@ interface InvoiceMethodProps {
 
 export const InvoiceMethod: React.FC<InvoiceMethodProps> = ({ onNext, onBack }) => {
   return (
-    <div className="min-h-screen gradient-bg-subtle flex items-center justify-center px-6">
+    <div className="min-h-screen bg-black flex items-center justify-center px-6">
       <BackgroundCurves />
       <Navigation />
       
@@ -23,14 +22,12 @@ export const InvoiceMethod: React.FC<InvoiceMethodProps> = ({ onNext, onBack }) 
         className="w-full max-w-4xl relative z-10 mt-20"
       >
         <div className="text-center mb-12">
-          <div className="card-bg rounded-3xl p-8">
-            <h2 className="text-3xl font-bold text-f5f5f5 mb-4">
-              How would you like to create your invoice?
-            </h2>
-            <p className="text-xl text-gray-300">
-              Choose the method that works best for you
-            </p>
-          </div>
+          <h2 className="text-3xl font-bold text-f5f5f5 mb-4">
+            How would you like to create your invoice?
+          </h2>
+          <p className="text-xl text-gray-300">
+            Choose the method that works best for you
+          </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 mb-8">
@@ -39,7 +36,7 @@ export const InvoiceMethod: React.FC<InvoiceMethodProps> = ({ onNext, onBack }) 
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card hover className="p-8 h-full cursor-pointer" onClick={() => onNext('upload')}>
+            <div className="p-8 h-full cursor-pointer bg-gray-900 rounded-xl border border-gray-700 hover:border-gray-600 transition-colors" onClick={() => onNext('upload')}>
               <div className="text-center">
                 <div className="w-20 h-20 bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Upload className="w-10 h-10 text-blue-400" />
@@ -69,7 +66,7 @@ export const InvoiceMethod: React.FC<InvoiceMethodProps> = ({ onNext, onBack }) 
                   </div>
                 </div>
               </div>
-            </Card>
+            </div>
           </motion.div>
 
           <motion.div
@@ -77,7 +74,7 @@ export const InvoiceMethod: React.FC<InvoiceMethodProps> = ({ onNext, onBack }) 
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 }}
           >
-            <Card hover className="p-8 h-full cursor-pointer" onClick={() => onNext('create')}>
+            <div className="p-8 h-full cursor-pointer bg-gray-900 rounded-xl border border-gray-700 hover:border-gray-600 transition-colors" onClick={() => onNext('create')}>
               <div className="text-center">
                 <div className="w-20 h-20 bg-green-900 rounded-full flex items-center justify-center mx-auto mb-6">
                   <FileText className="w-10 h-10 text-green-400" />
@@ -107,7 +104,7 @@ export const InvoiceMethod: React.FC<InvoiceMethodProps> = ({ onNext, onBack }) 
                   </div>
                 </div>
               </div>
-            </Card>
+            </div>
           </motion.div>
         </div>
 
