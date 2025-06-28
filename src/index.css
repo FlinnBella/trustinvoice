@@ -1,18 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;500;600;700&family=Crimson+Text:wght@400;600&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   * {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
   
   body {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #000000 100%);
-    color: #f8fafc;
+    background: linear-gradient(135deg, #0a1628 0%, #1e3a5f 25%, #2d5a87 50%, #1e3a5f 75%, #0a1628 100%);
+    color: #ffffff;
     overflow-x: hidden;
     min-height: 100vh;
+    font-weight: 400;
+    line-height: 1.6;
   }
 
   html {
@@ -22,108 +24,216 @@
 
 @layer utilities {
   .nav-bg {
-    background: rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(10, 22, 40, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
   
-  .professional-font {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  .mckinsey-font {
+    font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 400;
-    line-height: 1.6;
+    line-height: 1.5;
     letter-spacing: -0.01em;
+  }
+
+  .mckinsey-font-medium {
+    font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.015em;
+  }
+
+  .mckinsey-font-semibold {
+    font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+  }
+  
+  .mckinsey-serif {
+    font-family: 'Crimson Text', Georgia, 'Times New Roman', serif;
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+  }
+
+  .mckinsey-serif-semibold {
+    font-family: 'Crimson Text', Georgia, 'Times New Roman', serif;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: 0.005em;
   }
   
   .hero-title {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-weight: 700;
+    font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 300;
     line-height: 1.1;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
   }
 
-  .gradient-bg {
+  .mckinsey-gradient-bg {
     background: linear-gradient(135deg, 
-      #1e293b 0%, 
-      #334155 15%, 
-      #475569 35%, 
-      #64748b 55%, 
-      #475569 75%, 
-      #334155 85%, 
-      #1e293b 95%, 
-      #0f172a 100%
+      #0a1628 0%, 
+      #1e3a5f 15%, 
+      #2d5a87 35%, 
+      #4a7ba7 55%, 
+      #2d5a87 75%, 
+      #1e3a5f 85%, 
+      #0a1628 100%
     );
     background-attachment: fixed;
   }
 
-  .section-gradient {
+  .mckinsey-section-gradient {
     background: linear-gradient(180deg, 
-      rgba(30, 41, 59, 0.95) 0%, 
-      rgba(51, 65, 85, 0.9) 25%, 
-      rgba(71, 85, 105, 0.85) 50%, 
-      rgba(51, 65, 85, 0.9) 75%, 
-      rgba(15, 23, 42, 0.95) 100%
+      rgba(10, 22, 40, 0.98) 0%, 
+      rgba(30, 58, 95, 0.95) 25%, 
+      rgba(45, 90, 135, 0.92) 50%, 
+      rgba(30, 58, 95, 0.95) 75%, 
+      rgba(10, 22, 40, 0.98) 100%
     );
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(8px);
   }
 
-  .mobile-menu {
-    transform: translateX(-100%);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  .mckinsey-card-gradient {
+    background: linear-gradient(145deg, 
+      rgba(255, 255, 255, 0.08) 0%, 
+      rgba(255, 255, 255, 0.04) 50%, 
+      rgba(255, 255, 255, 0.02) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
   }
 
-  .mobile-menu.open {
-    transform: translateX(0);
+  .mckinsey-accent-blue {
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  }
+
+  .mckinsey-accent-teal {
+    background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
+  }
+
+  .mckinsey-accent-indigo {
+    background: linear-gradient(135deg, #4338ca 0%, #6366f1 100%);
+  }
+
+  .mckinsey-text-gradient {
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 50%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .mckinsey-gold-gradient {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Enhanced typography scales */
+  .text-display-1 {
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 0.9;
+    font-weight: 300;
+  }
+
+  .text-display-2 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1;
+    font-weight: 300;
+  }
+
+  .text-heading-1 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1.1;
+    font-weight: 500;
+  }
+
+  .text-heading-2 {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    line-height: 1.2;
+    font-weight: 500;
+  }
+
+  .text-body-large {
+    font-size: clamp(1.125rem, 2vw, 1.375rem);
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  .text-body-medium {
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  /* McKinsey-style spacing system */
+  .space-mckinsey-xs { margin: 0.5rem; }
+  .space-mckinsey-sm { margin: 1rem; }
+  .space-mckinsey-md { margin: 1.5rem; }
+  .space-mckinsey-lg { margin: 2.5rem; }
+  .space-mckinsey-xl { margin: 4rem; }
+  .space-mckinsey-2xl { margin: 6rem; }
+
+  /* Enhanced shadows */
+  .shadow-mckinsey-soft {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .shadow-mckinsey-medium {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  .shadow-mckinsey-strong {
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16), 0 4px 12px rgba(0, 0, 0, 0.2);
   }
 
   /* Custom scrollbar */
   ::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
   }
 
   ::-webkit-scrollbar-track {
-    background: rgba(30, 41, 59, 0.5);
+    background: rgba(10, 22, 40, 0.3);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgba(71, 85, 105, 0.8);
-    border-radius: 4px;
+    background: rgba(74, 123, 167, 0.6);
+    border-radius: 3px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(100, 116, 139, 0.9);
+    background: rgba(74, 123, 167, 0.8);
   }
 
-  /* Smooth scroll behavior */
-  html {
-    scroll-behavior: smooth;
+  /* Performance optimizations */
+  .will-change-transform {
+    will-change: transform;
+  }
+
+  .will-change-opacity {
+    will-change: opacity;
   }
 
   /* Enhanced transitions */
   * {
     transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     transition-duration: 300ms;
   }
 }
 
-/* Smooth transitions for all interactive elements */
+/* McKinsey-style button enhancements */
 button, a, input, textarea {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Focus styles for accessibility */
+/* Enhanced focus styles */
 button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
-  outline: 2px solid #f8fafc;
+  outline: 2px solid #3b82f6;
   outline-offset: 2px;
-}
-
-/* Performance optimizations */
-.will-change-transform {
-  will-change: transform;
-}
-
-.will-change-opacity {
-  will-change: opacity;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
 }
 
 /* Prevent layout shifts */
@@ -137,4 +247,36 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+}
+
+/* McKinsey-style animations */
+@keyframes mckinsey-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mckinsey-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-mckinsey-fade-in {
+  animation: mckinsey-fade-in 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.animate-mckinsey-slide-in {
+  animation: mckinsey-slide-in 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }

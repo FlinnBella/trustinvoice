@@ -18,12 +18,12 @@ export const Button: React.FC<ButtonProps> = ({
   disabled = false,
   className = ''
 }) => {
-  const baseClasses = 'font-medium rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 transform hover:scale-105 active:scale-95';
+  const baseClasses = 'mckinsey-font-medium rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 transform hover:scale-105 active:scale-95 shadow-mckinsey-soft';
   
   const variantClasses = {
-    primary: 'bg-white text-black hover:bg-gray-100 focus:ring-gray-400 shadow-lg',
-    secondary: 'bg-gray-800 text-white hover:bg-gray-700 focus:ring-gray-600 shadow-lg',
-    outline: 'border-2 border-white text-white hover:bg-white hover:text-black focus:ring-gray-400 shadow-lg'
+    primary: 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 focus:ring-blue-400/30 shadow-mckinsey-medium',
+    secondary: 'bg-gradient-to-r from-slate-700 to-slate-800 text-white hover:from-slate-600 hover:to-slate-700 focus:ring-slate-400/30 shadow-mckinsey-medium',
+    outline: 'border-2 border-slate-300/30 text-slate-200 hover:bg-slate-200/10 hover:border-slate-200/50 focus:ring-slate-400/20 backdrop-blur-sm'
   };
 
   const sizeClasses = {
@@ -34,8 +34,8 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <motion.button
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+      whileHover={{ scale: disabled ? 1 : 1.05 }}
+      whileTap={{ scale: disabled ? 1 : 0.95 }}
       onClick={onClick}
       disabled={disabled}
       className={`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${disabled ? 'opacity-50 cursor-not-allowed transform-none hover:scale-100' : ''} ${className}`}

@@ -21,7 +21,6 @@ export const ResponsiveNavigation: React.FC = () => {
   const scrollToSection = (sectionId: string) => {
     setIsMobileMenuOpen(false);
     
-    // Use native smooth scrolling for better performance
     const element = document.querySelector(sectionId);
     if (element) {
       element.scrollIntoView({ 
@@ -43,8 +42,10 @@ export const ResponsiveNavigation: React.FC = () => {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center space-x-3">
-              <Shield className="w-8 h-8 text-white" />
-              <span className="text-2xl font-semibold text-white professional-font">TrustInvoice</span>
+              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-teal-500 rounded-xl flex items-center justify-center shadow-mckinsey-soft">
+                <Shield className="w-6 h-6 text-white" />
+              </div>
+              <span className="text-2xl mckinsey-font-semibold text-white">TrustInvoice</span>
             </div>
             
             {/* Desktop Navigation */}
@@ -52,27 +53,27 @@ export const ResponsiveNavigation: React.FC = () => {
               <div className="flex items-center space-x-12">
                 <button 
                   onClick={() => scrollToSection('#features')}
-                  className="text-gray-300 hover:text-white transition-colors duration-300 professional-font text-lg cursor-pointer border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-lg px-3 py-2"
+                  className="text-slate-300 hover:text-white transition-colors duration-300 mckinsey-font-medium text-lg cursor-pointer border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-white/20 rounded-lg px-3 py-2"
                 >
-                  Features
+                  Solutions
                 </button>
                 <button 
                   onClick={() => scrollToSection('#security')}
-                  className="text-gray-300 hover:text-white transition-colors duration-300 professional-font text-lg cursor-pointer border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-lg px-3 py-2"
+                  className="text-slate-300 hover:text-white transition-colors duration-300 mckinsey-font-medium text-lg cursor-pointer border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-white/20 rounded-lg px-3 py-2"
                 >
-                  Security
+                  Technology
                 </button>
                 <button 
                   onClick={() => scrollToSection('#pricing')}
-                  className="text-gray-300 hover:text-white transition-colors duration-300 professional-font text-lg cursor-pointer border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-lg px-3 py-2"
+                  className="text-slate-300 hover:text-white transition-colors duration-300 mckinsey-font-medium text-lg cursor-pointer border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-white/20 rounded-lg px-3 py-2"
                 >
-                  Pricing
+                  Investment
                 </button>
                 <button 
                   onClick={() => scrollToSection('#about')}
-                  className="text-gray-300 hover:text-white transition-colors duration-300 professional-font text-lg cursor-pointer border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-lg px-3 py-2"
+                  className="text-slate-300 hover:text-white transition-colors duration-300 mckinsey-font-medium text-lg cursor-pointer border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-white/20 rounded-lg px-3 py-2"
                 >
-                  About
+                  Impact
                 </button>
               </div>
             </div>
@@ -81,7 +82,7 @@ export const ResponsiveNavigation: React.FC = () => {
             <div className="md:hidden">
               <button
                 onClick={toggleMobileMenu}
-                className="text-white p-2 rounded-lg hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
+                className="text-white p-2 rounded-lg hover:bg-slate-700/50 transition-colors focus:outline-none focus:ring-2 focus:ring-white/20"
                 aria-label="Toggle mobile menu"
               >
                 {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -98,35 +99,35 @@ export const ResponsiveNavigation: React.FC = () => {
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-40 md:hidden">
           <div 
-            className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm" 
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm" 
             onClick={toggleMobileMenu}
           ></div>
-          <div className="fixed top-0 left-0 w-80 h-full bg-gray-900 shadow-xl transform transition-transform duration-300 border-r border-gray-700">
+          <div className="fixed top-0 left-0 w-80 h-full mckinsey-card-gradient shadow-mckinsey-strong transform transition-transform duration-300 border-r border-slate-600/50">
             <div className="p-6 pt-20">
               <div className="space-y-6">
                 <button 
                   onClick={() => scrollToSection('#features')}
-                  className="block w-full text-left text-white hover:text-gray-300 transition-colors duration-300 professional-font text-lg py-3 border-b border-gray-700 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-lg px-3"
+                  className="block w-full text-left text-white hover:text-slate-300 transition-colors duration-300 mckinsey-font-medium text-lg py-3 border-b border-slate-600/30 focus:outline-none focus:ring-2 focus:ring-white/20 rounded-lg px-3"
                 >
-                  Features
+                  Solutions
                 </button>
                 <button 
                   onClick={() => scrollToSection('#security')}
-                  className="block w-full text-left text-white hover:text-gray-300 transition-colors duration-300 professional-font text-lg py-3 border-b border-gray-700 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-lg px-3"
+                  className="block w-full text-left text-white hover:text-slate-300 transition-colors duration-300 mckinsey-font-medium text-lg py-3 border-b border-slate-600/30 focus:outline-none focus:ring-2 focus:ring-white/20 rounded-lg px-3"
                 >
-                  Security
+                  Technology
                 </button>
                 <button 
                   onClick={() => scrollToSection('#pricing')}
-                  className="block w-full text-left text-white hover:text-gray-300 transition-colors duration-300 professional-font text-lg py-3 border-b border-gray-700 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-lg px-3"
+                  className="block w-full text-left text-white hover:text-slate-300 transition-colors duration-300 mckinsey-font-medium text-lg py-3 border-b border-slate-600/30 focus:outline-none focus:ring-2 focus:ring-white/20 rounded-lg px-3"
                 >
-                  Pricing
+                  Investment
                 </button>
                 <button 
                   onClick={() => scrollToSection('#about')}
-                  className="block w-full text-left text-white hover:text-gray-300 transition-colors duration-300 professional-font text-lg py-3 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-lg px-3"
+                  className="block w-full text-left text-white hover:text-slate-300 transition-colors duration-300 mckinsey-font-medium text-lg py-3 focus:outline-none focus:ring-2 focus:ring-white/20 rounded-lg px-3"
                 >
-                  About
+                  Impact
                 </button>
               </div>
             </div>
