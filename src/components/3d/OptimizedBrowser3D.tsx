@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Environment, ContactShadows, Text, Box, Plane, Circle } from '@react-three/drei';
+import { Environment, ContactShadows, Text, Box, Plane, Circle, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { gsap } from 'gsap';
 
@@ -171,9 +171,11 @@ const BrowserModel: React.FC = () => {
 };
 
 const LoadingFallback: React.FC = () => (
-  <div className="w-full h-full flex items-center justify-center">
-    <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
-  </div>
+  <Html center>
+    <div className="w-full h-full flex items-center justify-center">
+      <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  </Html>
 );
 
 export const OptimizedBrowser3D: React.FC = () => {
