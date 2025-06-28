@@ -38,17 +38,17 @@ export const InvoiceUpload: React.FC<InvoiceUploadProps> = ({ onNext, onBack }) 
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center px-6">
+    <div className="min-h-screen bg-black flex items-center justify-center px-6">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-2xl"
       >
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-black mb-4">
+          <h2 className="text-3xl font-bold text-white mb-4">
             Upload Your Invoice PDF
           </h2>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-gray-300">
             We'll automatically extract the details for smart contract processing
           </p>
         </div>
@@ -59,8 +59,8 @@ export const InvoiceUpload: React.FC<InvoiceUploadProps> = ({ onNext, onBack }) 
               {...getRootProps()}
               className={`border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-colors ${
                 isDragActive
-                  ? 'border-black bg-gray-50'
-                  : 'border-gray-300 hover:border-gray-400'
+                  ? 'border-white bg-gray-800/50'
+                  : 'border-gray-600 hover:border-gray-500'
               }`}
             >
               <input {...getInputProps()} />
@@ -70,16 +70,16 @@ export const InvoiceUpload: React.FC<InvoiceUploadProps> = ({ onNext, onBack }) 
               >
                 <Upload className="w-16 h-16 text-gray-400 mx-auto" />
                 <div>
-                  <p className="text-lg font-medium text-gray-900 mb-2">
+                  <p className="text-lg font-medium text-white mb-2">
                     {isDragActive
                       ? 'Drop your PDF here'
                       : 'Drag & drop your invoice PDF here'}
                   </p>
-                  <p className="text-gray-500">
+                  <p className="text-gray-400">
                     or click to browse files
                   </p>
                 </div>
-                <div className="text-sm text-gray-400">
+                <div className="text-sm text-gray-500">
                   Supports PDF files up to 10MB
                 </div>
               </motion.div>
@@ -88,22 +88,22 @@ export const InvoiceUpload: React.FC<InvoiceUploadProps> = ({ onNext, onBack }) 
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="flex items-center justify-between p-4 bg-green-50 border border-green-200 rounded-lg"
+              className="flex items-center justify-between p-4 bg-green-900/20 border border-green-600/50 rounded-lg"
             >
               <div className="flex items-center space-x-3">
-                <FileText className="w-8 h-8 text-green-600" />
+                <FileText className="w-8 h-8 text-green-400" />
                 <div>
-                  <p className="font-medium text-green-900">{uploadedFile.name}</p>
-                  <p className="text-sm text-green-600">
+                  <p className="font-medium text-green-300">{uploadedFile.name}</p>
+                  <p className="text-sm text-green-400">
                     {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
                   </p>
                 </div>
               </div>
               <button
                 onClick={removeFile}
-                className="p-1 hover:bg-green-100 rounded-full transition-colors"
+                className="p-1 hover:bg-green-800/20 rounded-full transition-colors"
               >
-                <X className="w-5 h-5 text-green-600" />
+                <X className="w-5 h-5 text-green-400" />
               </button>
             </motion.div>
           )}

@@ -32,7 +32,7 @@ export const RecipientEmail: React.FC<RecipientEmailProps> = ({ onNext, onBack, 
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center px-6">
+    <div className="min-h-screen bg-black flex items-center justify-center px-6">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -44,15 +44,15 @@ export const RecipientEmail: React.FC<RecipientEmailProps> = ({ onNext, onBack, 
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.2 }}
-              className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6"
+              className="w-16 h-16 bg-blue-900/50 rounded-full flex items-center justify-center mx-auto mb-6"
             >
-              <Mail className="w-8 h-8 text-blue-600" />
+              <Mail className="w-8 h-8 text-blue-400" />
             </motion.div>
             
-            <h2 className="text-2xl font-bold text-black mb-2">
+            <h2 className="text-2xl font-bold text-white mb-2">
               Who should receive this invoice?
             </h2>
-            <p className="text-gray-600">
+            <p className="text-gray-300">
               Enter the recipient's email address for secure delivery
             </p>
           </div>
@@ -67,8 +67,8 @@ export const RecipientEmail: React.FC<RecipientEmailProps> = ({ onNext, onBack, 
               required
             />
 
-            <div className="bg-blue-50 p-4 rounded-lg">
-              <p className="text-sm text-blue-800">
+            <div className="bg-blue-900/20 p-4 rounded-lg border border-blue-600/30">
+              <p className="text-sm text-blue-300">
                 <strong>Secure Delivery:</strong> The invoice will be sent via encrypted email
                 with blockchain verification for authenticity.
               </p>

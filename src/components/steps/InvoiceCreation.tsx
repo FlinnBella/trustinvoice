@@ -62,17 +62,17 @@ export const InvoiceCreation: React.FC<InvoiceCreationProps> = ({ onNext, onBack
   const isValid = invoiceData.companyName && invoiceData.description && invoiceData.dueDate;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white py-12 px-6">
+    <div className="min-h-screen bg-black py-12 px-6">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-4xl mx-auto"
       >
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-black mb-4">
+          <h2 className="text-3xl font-bold text-white mb-4">
             Create Your Invoice
           </h2>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-gray-300">
             Fill in the details for your professional invoice
           </p>
         </div>
@@ -80,7 +80,7 @@ export const InvoiceCreation: React.FC<InvoiceCreationProps> = ({ onNext, onBack
         <Card className="p-8 mb-8">
           <div className="grid md:grid-cols-2 gap-8 mb-8">
             <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-black">Company Information</h3>
+              <h3 className="text-lg font-semibold text-white">Company Information</h3>
               
               <Input
                 label="Company Name"
@@ -91,7 +91,7 @@ export const InvoiceCreation: React.FC<InvoiceCreationProps> = ({ onNext, onBack
               />
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   Company Address
                 </label>
                 <textarea
@@ -99,13 +99,13 @@ export const InvoiceCreation: React.FC<InvoiceCreationProps> = ({ onNext, onBack
                   onChange={(e) => updateField('companyAddress', e.target.value)}
                   placeholder="123 Business St, City, State 12345"
                   rows={3}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                  className="w-full px-4 py-3 bg-gray-800/80 border border-gray-600 rounded-lg focus:ring-2 focus:ring-white focus:border-transparent transition-all duration-300 text-white placeholder-gray-400"
                 />
               </div>
             </div>
 
             <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-black">Invoice Details</h3>
+              <h3 className="text-lg font-semibold text-white">Invoice Details</h3>
               
               <Input
                 label="Invoice Number"
@@ -134,7 +134,7 @@ export const InvoiceCreation: React.FC<InvoiceCreationProps> = ({ onNext, onBack
 
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-black">Invoice Items</h3>
+              <h3 className="text-lg font-semibold text-white">Invoice Items</h3>
               <Button
                 variant="outline"
                 onClick={addItem}
@@ -151,7 +151,7 @@ export const InvoiceCreation: React.FC<InvoiceCreationProps> = ({ onNext, onBack
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="grid grid-cols-12 gap-4 items-end p-4 bg-gray-50 rounded-lg"
+                  className="grid grid-cols-12 gap-4 items-end p-4 bg-gray-800/50 rounded-lg"
                 >
                   <div className="col-span-5">
                     <Input
@@ -185,7 +185,7 @@ export const InvoiceCreation: React.FC<InvoiceCreationProps> = ({ onNext, onBack
                       label="Amount"
                       value={`$${item.amount.toFixed(2)}`}
                       onChange={() => {}}
-                      className="bg-gray-100"
+                      className="bg-gray-700"
                     />
                   </div>
                   
@@ -193,7 +193,7 @@ export const InvoiceCreation: React.FC<InvoiceCreationProps> = ({ onNext, onBack
                     {(invoiceData.items || []).length > 1 && (
                       <button
                         onClick={() => removeItem(index)}
-                        className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                        className="p-2 text-red-400 hover:bg-red-900/20 rounded-lg transition-colors"
                       >
                         <Trash2 size={16} />
                       </button>
@@ -205,7 +205,7 @@ export const InvoiceCreation: React.FC<InvoiceCreationProps> = ({ onNext, onBack
 
             <div className="flex justify-end">
               <div className="text-right">
-                <div className="text-lg font-semibold text-black">
+                <div className="text-lg font-semibold text-white">
                   Total: ${calculateTotal().toFixed(2)}
                 </div>
               </div>
