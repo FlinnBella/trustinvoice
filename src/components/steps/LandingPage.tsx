@@ -194,11 +194,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 
                 <div className="space-y-4 text-sm font-mono">
                   <div className="text-gray-600">// Invoice Contract</div>
-                  <div className="text-blue-600">contract InvoicePayment {</div>
+                  <div className="text-blue-600">contract InvoicePayment &lbrace;</div>
                   <div className="ml-4 text-gray-800">address payable recipient;</div>
                   <div className="ml-4 text-gray-800">uint256 amount;</div>
                   <div className="ml-4 text-gray-800">bool paid = false;</div>
-                  <div className="text-blue-600">}</div>
+                  <div className="text-blue-600">&rbrace;</div>
                 </div>
               </div>
             </motion.div>
