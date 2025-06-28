@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Upload, FileText, ArrowRight, ArrowLeft } from 'lucide-react';
 import { Button } from '../ui/Button';
-import { BackgroundCurves } from '../animations/BackgroundCurves';
+import { FixedMcKinseyCurves } from '../animations/FixedMcKinseyCurves';
 import { Navigation } from '../layout/Navigation';
 
 interface InvoiceMethodProps {
@@ -13,7 +13,7 @@ interface InvoiceMethodProps {
 export const InvoiceMethod: React.FC<InvoiceMethodProps> = ({ onNext, onBack }) => {
   return (
     <div className="min-h-screen bg-black flex items-center justify-center px-6">
-      <BackgroundCurves />
+      <FixedMcKinseyCurves />
       <Navigation />
       
       <motion.div
