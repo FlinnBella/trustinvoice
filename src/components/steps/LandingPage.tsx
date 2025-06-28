@@ -74,7 +74,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
               <motion.h1
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 1, ease: "power3.out" }}
+                transition={{ delay: 0.3, duration: 1, ease: "easeOut" }}
                 className="text-5xl md:text-6xl lg:text-7xl font-bold text-f5f5f5 mb-8 leading-tight hero-title"
               >
                 Security, Trust,
@@ -85,7 +85,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
               <motion.p
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 1, ease: "power3.out" }}
+                transition={{ delay: 0.6, duration: 1, ease: "easeOut" }}
                 className="text-xl text-gray-300 mb-12 leading-relaxed professional-serif max-w-xl"
               >
                 Enterprise-grade invoice processing with uncompromising privacy.
@@ -95,7 +95,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.9, duration: 1, ease: "power3.out" }}
+                transition={{ delay: 0.9, duration: 1, ease: "easeOut" }}
                 className="flex flex-col sm:flex-row gap-4 items-start"
               >
                 <Button
@@ -121,7 +121,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
             <motion.div
               initial={{ opacity: 0, x: 100, scale: 0.8 }}
               animate={{ opacity: 1, x: 0, scale: 1 }}
-              transition={{ delay: 0.4, duration: 1.5, ease: "power3.out" }}
+              transition={{ delay: 0.4, duration: 1.5, ease: "easeOut" }}
               className="relative h-96 lg:h-[600px]"
             >
               <PhotorealisticBrowser3D />

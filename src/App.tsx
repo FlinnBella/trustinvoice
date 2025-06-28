@@ -194,7 +194,7 @@ function App() {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
-          transition={{ duration: 0.5, ease: "power3.out" }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
           className={currentStep > 0 && currentStep < steps.length - 1 ? 'pt-40' : ''}
         >
           {renderStep()}
