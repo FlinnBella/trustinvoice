@@ -345,7 +345,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                   <div className="ml-4 text-slate-300">bool private paid = false;</div>
                   <div className="ml-4 text-slate-300">uint256 immutable dueDate;</div>
                   <div className="ml-4 text-green-300">modifier onlyAfterDue() &#123;</div>
-                  <div className="ml-8 text-slate-300">require(block.timestamp > dueDate);</div>
+                  <div className="ml-8 text-slate-300">require(block.timestamp {'>'} dueDate);</div>
                   <div className="ml-8 text-slate-300">_;</div>
                   <div className="ml-4 text-green-300">&#125;</div>
                   <div className="ml-4 text-yellow-300">event PaymentExecuted(uint256 amount);</div>
