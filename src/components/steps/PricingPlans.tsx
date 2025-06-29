@@ -70,54 +70,71 @@ export const PricingPlans: React.FC<PricingPlansProps> = ({ onNext, onBack }) =>
                   </div>
                 )}
                 
-                <Card
-                  hover
-                  className={`p-8 h-full cursor-pointer transition-all duration-200 ${
+                <div
+                  className={`relative p-8 h-full cursor-pointer transition-all duration-200 rounded-xl border backdrop-blur-sm ${
                     isSelected
                       ? 'ring-2 ring-white shadow-xl'
                       : plan.recommended
                       ? 'border-white/30'
-                      : ''
+                      : 'border-gray-700/50'
+                  } ${
+                    plan.recommended
+                      ? 'bg-gradient-to-br from-gray-800/80 to-gray-900/80'
+                      : 'bg-gradient-to-br from-gray-800/80 to-gray-900/80'
                   }`}
                   onClick={() => setSelectedPlan(plan)}
                 >
-                  <div className="text-center mb-6">
-                    <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${
-                      plan.id === 'basic' ? 'bg-blue-900/50' :
-                      plan.id === 'pro' ? 'bg-green-900/50' :
-                      'bg-purple-900/50'
-                    }`}>
-                      <Icon className={`w-8 h-8 ${
-                        plan.id === 'basic' ? 'text-blue-400' :
-                        plan.id === 'pro' ? 'text-green-400' :
-                        'text-purple-400'
-                      }`} />
-                    </div>
-                    
-                    <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
-                    <div className="text-3xl font-bold text-white mb-1">
-                      ${plan.price}
-                    </div>
-                    <div className="text-gray-400">per month</div>
-                  </div>
-
-                  <div className="space-y-3 mb-8">
-                    {plan.features.map((feature, featureIndex) => (
-                      <div key={featureIndex} className="flex items-start space-x-3">
-                        <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300 text-sm">{feature}</span>
+                  {/* Glow Effects */}
+                  {plan.recommended ? (
+                    // Top-right glow for Pro plan
+                    <div className="absolute -top-2 -right-2 w-32 h-32 bg-gradient-to-br from-blue-500/30 to-teal-500/30 rounded-full blur-2xl opacity-60"></div>
+                  ) : (
+                    // Bottom-right glow for other plans
+                    <div className="absolute -bottom-2 -right-2 w-24 h-24 bg-gradient-to-br from-slate-500/20 to-gray-500/20 rounded-full blur-xl opacity-40"></div>
+                  )}
+                  
+                  <div className="relative z-10">
+                    <div className="text-center mb-6">
+                      <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${
+                        plan.id === 'basic' ? 'bg-blue-900/50' :
+                        plan.id === 'pro' ? 'bg-green-900/50' :
+                        'bg-purple-900/50'
+                      }`}>
+                        <Icon className={`w-8 h-8 ${
+                          plan.id === 'basic' ? 'text-blue-400' :
+                          plan.id === 'pro' ? 'text-green-400' :
+                          'text-purple-400'
+                        }`} />
                       </div>
-                    ))}
-                  </div>
+                      
+                      <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
+                      <div className="text-3xl font-bold text-white mb-1">
+                        ${plan.price}
+                      </div>
+                      <div className="text-gray-400">per month</div>
+                    </div>
 
-                  <Button
-                    variant={isSelected ? 'primary' : 'outline'}
-                    className="w-full"
-                    onClick={() => setSelectedPlan(plan)}
-                  >
-                    {isSelected ? 'Selected' : 'Select Plan'}
-                  </Button>
-                </Card>
+                    <div className="space-y-3 mb-8">
+                      {plan.features.map((feature, featureIndex) => (
+                        <div key={featureIndex} className="flex items-start space-x-3">
+                          <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-300 text-sm">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Selection button moved to bottom */}
+                    <div className="mt-auto">
+                      <Button
+                        variant={isSelected ? 'primary' : 'outline'}
+                        className="w-full"
+                        onClick={() => setSelectedPlan(plan)}
+                      >
+                        {isSelected ? 'Selected' : 'Select Plan'}
+                      </Button>
+                    </div>
+                  </div>
+                </div>
               </motion.div>
             );
           })}

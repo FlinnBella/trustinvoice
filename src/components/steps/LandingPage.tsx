@@ -4,7 +4,7 @@ import { Shield, ArrowRight, Lock, Zap, Globe, Upload, FileText, TrendingUp, Use
 import { Button } from '../ui/Button';
 import { FixedMcKinseyCurves } from '../animations/FixedMcKinseyCurves';
 import { ResponsiveNavigation } from '../layout/ResponsiveNavigation';
-import { LargeShield } from '../ui/LargeShield';
+import { LaptopDisplay } from '../ui/LaptopDisplay';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -196,9 +196,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
               </motion.div>
             </div>
 
-            {/* Right side - Large Shield */}
+            {/* Right side - Laptop Display */}
             <div className="flex justify-center lg:justify-end">
-              <LargeShield />
+              <LaptopDisplay />
             </div>
           </div>
         </div>
