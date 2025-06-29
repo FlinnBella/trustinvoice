@@ -73,34 +73,34 @@
 
   .mckinsey-smooth-gradient {
     background: linear-gradient(135deg, 
-      #0a1628 0%, 
-      #1a2f4a 20%, 
-      #2d4a6b 40%, 
-      #3a5f7d 60%, 
-      #2d4a6b 80%, 
-      #0a1628 100%
+      #1a2f4a 0%, 
+      #2d4a6b 20%, 
+      #4a6b8a 40%, 
+      #5a7ba0 60%, 
+      #4a6b8a 80%, 
+      #1a2f4a 100%
     );
     background-attachment: fixed;
   }
 
   .mckinsey-smooth-section {
     background: linear-gradient(180deg, 
-      rgba(10, 22, 40, 0.95) 0%, 
-      rgba(26, 47, 74, 0.92) 25%, 
-      rgba(45, 74, 107, 0.88) 50%, 
-      rgba(26, 47, 74, 0.92) 75%, 
-      rgba(10, 22, 40, 0.95) 100%
+      rgba(26, 47, 74, 0.85) 0%, 
+      rgba(45, 74, 107, 0.80) 25%, 
+      rgba(74, 107, 138, 0.75) 50%, 
+      rgba(45, 74, 107, 0.80) 75%, 
+      rgba(26, 47, 74, 0.85) 100%
     );
     backdrop-filter: blur(8px);
   }
 
   .mckinsey-smooth-section-alt {
     background: linear-gradient(180deg, 
-      rgba(15, 30, 50, 0.95) 0%, 
-      rgba(30, 50, 80, 0.92) 25%, 
-      rgba(40, 65, 95, 0.88) 50%, 
-      rgba(30, 50, 80, 0.92) 75%, 
-      rgba(15, 30, 50, 0.95) 100%
+      rgba(35, 55, 85, 0.85) 0%, 
+      rgba(55, 80, 115, 0.80) 25%, 
+      rgba(75, 100, 135, 0.75) 50%, 
+      rgba(55, 80, 115, 0.80) 75%, 
+      rgba(35, 55, 85, 0.85) 100%
     );
     backdrop-filter: blur(8px);
   }

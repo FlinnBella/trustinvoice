@@ -16,7 +16,7 @@ export const CircularProgressIndicator: React.FC<CircularProgressIndicatorProps>
   ];
 
   return (
-    <div className="flex items-center justify-center space-x-8 py-8">
+    <div className="flex items-center justify-center space-x-4 md:space-x-8 py-4">
       {steps.map((step, index) => {
         const Icon = step.icon;
         const isActive = index <= currentStep;
@@ -24,11 +24,11 @@ export const CircularProgressIndicator: React.FC<CircularProgressIndicatorProps>
         const isCompleted = index < currentStep;
 
         return (
-          <div key={index} className="flex flex-col items-center space-y-3">
+          <div key={index} className="flex flex-col items-center space-y-2">
             {/* Circular Progress Ring */}
-            <div className="relative w-16 h-16">
+            <div className="relative w-12 h-12 md:w-16 md:h-16">
               {/* Background circle */}
-              <svg className="w-16 h-16 transform -rotate-90" viewBox="0 0 64 64">
+              <svg className="w-12 h-12 md:w-16 md:h-16 transform -rotate-90" viewBox="0 0 64 64">
                 <circle
                   cx="32"
                   cy="32"
@@ -76,13 +76,13 @@ export const CircularProgressIndicator: React.FC<CircularProgressIndicatorProps>
                     : 'bg-gray-800 text-gray-500'
                 }`}
               >
-                <Icon size={20} />
+                <Icon size={16} className="md:w-5 md:h-5" />
               </motion.div>
             </div>
             
             {/* Step label */}
             <motion.span 
-              className={`text-sm font-medium transition-colors duration-300 ${
+              className={`text-xs md:text-sm font-medium transition-colors duration-300 ${
                 isActive ? 'text-f5f5f5' : 'text-gray-500'
               }`}
               animate={{ opacity: isActive ? 1 : 0.6 }}
