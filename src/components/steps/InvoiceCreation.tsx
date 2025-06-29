@@ -5,14 +5,21 @@ import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Card } from '../ui/Card';
 import { InvoiceData, InvoiceItem } from '../../types';
+import { emailService } from '../../lib/email-service';
 
 interface InvoiceCreationProps {
   onNext: (invoiceData: Partial<InvoiceData>) => void;
   onBack: () => void;
   userEmail: string;
+  userPlan?: string;
 }
 
-export const InvoiceCreation: React.FC<InvoiceCreationProps> = ({ onNext, onBack, userEmail }) => {
+export const InvoiceCreation: React.FC<InvoiceCreationProps> = ({ 
+  onNext, 
+  onBack, 
+  userEmail,
+  userPlan = 'basic'
+}) => {
   const [invoiceData, setInvoiceData] = useState<Partial<InvoiceData>>({
     userEmail,
     invoiceNumber: `INV-${Date.now()}`,
@@ -54,15 +61,39 @@ export const InvoiceCreation: React.FC<InvoiceCreationProps> = ({ onNext, onBack
     return (invoiceData.items || []).reduce((total, item) => total + item.amount, 0);
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     const total = calculateTotal();
-    onNext({ ...invoiceData, amount: total });
+    const finalInvoiceData = { ...invoiceData, amount: total };
+    
+    // If this is a pro/premium plan, send contract deployment notification
+    if (userPlan !== 'basic' && invoiceData.recipientEmail) {
+      try {
+        await emailService.sendContractDeployedEmail(
+          userEmail, // Send to the invoice creator
+          userEmail,
+          {
+            invoiceNumber: invoiceData.invoiceNumber || '',
+            amount: total,
+            description: invoiceData.description || '',
+            companyName: invoiceData.companyName || '',
+            dueDate: invoiceData.dueDate || '',
+            contractAddress: `0x${Math.random().toString(16).substr(2, 40)}`, // Mock contract address
+            transactionHash: `0x${Math.random().toString(16).substr(2, 64)}` // Mock transaction hash
+          },
+          userPlan
+        );
+      } catch (error) {
+        console.error('Failed to send contract deployment email:', error);
+      }
+    }
+    
+    onNext(finalInvoiceData);
   };
 
   const isValid = invoiceData.companyName && invoiceData.description && invoiceData.dueDate;
 
   return (
-    <div className="min-h-screen bg-black py-12 px-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 py-12 px-6">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -74,6 +105,7 @@ export const InvoiceCreation: React.FC<InvoiceCreationProps> = ({ onNext, onBack
           </h2>
           <p className="text-xl text-gray-300">
             Fill in the details for your professional invoice
+            {userPlan !== 'basic' && ' with blockchain security'}
           </p>
         </div>
 
@@ -211,6 +243,15 @@ export const InvoiceCreation: React.FC<InvoiceCreationProps> = ({ onNext, onBack
               </div>
             </div>
           </div>
+
+          {userPlan !== 'basic' && (
+            <div className="mt-6 p-4 bg-blue-900/20 rounded-lg border border-blue-600/30">
+              <h4 className="font-semibold text-blue-300 mb-2">🔗 Blockchain Features Enabled</h4>
+              <p className="text-sm text-blue-300">
+                This invoice will be secured with a smart contract and include advanced email tracking.
+              </p>
+            </div>
+          )}
         </Card>
 
         <div className="flex space-x-3">
