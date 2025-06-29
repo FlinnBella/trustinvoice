@@ -85,22 +85,22 @@
 
   .mckinsey-smooth-section {
     background: linear-gradient(180deg, 
-      rgba(26, 47, 74, 0.85) 0%, 
-      rgba(45, 74, 107, 0.80) 25%, 
-      rgba(74, 107, 138, 0.75) 50%, 
-      rgba(45, 74, 107, 0.80) 75%, 
-      rgba(26, 47, 74, 0.85) 100%
+      rgba(26, 47, 74, 0.45) 0%, 
+      rgba(45, 74, 107, 0.40) 25%, 
+      rgba(74, 107, 138, 0.35) 50%, 
+      rgba(45, 74, 107, 0.40) 75%, 
+      rgba(26, 47, 74, 0.45) 100%
     );
     backdrop-filter: blur(8px);
   }
 
   .mckinsey-smooth-section-alt {
     background: linear-gradient(180deg, 
-      rgba(35, 55, 85, 0.85) 0%, 
-      rgba(55, 80, 115, 0.80) 25%, 
-      rgba(75, 100, 135, 0.75) 50%, 
-      rgba(55, 80, 115, 0.80) 75%, 
-      rgba(35, 55, 85, 0.85) 100%
+      rgba(35, 55, 85, 0.45) 0%, 
+      rgba(55, 80, 115, 0.40) 25%, 
+      rgba(75, 100, 135, 0.35) 50%, 
+      rgba(55, 80, 115, 0.40) 75%, 
+      rgba(35, 55, 85, 0.45) 100%
     );
     backdrop-filter: blur(8px);
   }
