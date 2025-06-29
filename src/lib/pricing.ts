@@ -4,7 +4,7 @@ export const pricingPlans: PricingPlan[] = [
   {
     id: 'basic',
     name: 'Basic',
-    price: 9.99,
+    price: 10,
     features: [
       'Up to 10 invoices per month',
       'Basic email notifications',
@@ -16,7 +16,7 @@ export const pricingPlans: PricingPlan[] = [
   {
     id: 'pro',
     name: 'Pro',
-    price: 29.99,
+    price: 30,
     recommended: true,
     features: [
       'Up to 100 invoices per month',
@@ -31,7 +31,7 @@ export const pricingPlans: PricingPlan[] = [
   {
     id: 'premium',
     name: 'Premium',
-    price: 99.99,
+    price: 90,
     features: [
       'Unlimited invoices',
       'White-label solution',

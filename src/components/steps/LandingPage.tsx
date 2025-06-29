@@ -2,9 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Shield, ArrowRight, Lock, Zap, Globe, Upload, FileText, TrendingUp, Users, Award, CheckCircle } from 'lucide-react';
 import { Button } from '../ui/Button';
-import { FixedMcKinseyCurves } from '../animations/FixedMcKinseyCurves';
 import { ResponsiveNavigation } from '../layout/ResponsiveNavigation';
-import { LaptopDisplay } from '../ui/LaptopDisplay';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -106,8 +104,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
   }, []);
 
   return (
-    <div className="min-h-screen mckinsey-smooth-gradient relative overflow-hidden">
-      <FixedMcKinseyCurves />
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
       <ResponsiveNavigation />
       
       {/* Hero Section */}
@@ -196,16 +193,69 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
               </motion.div>
             </div>
 
-            {/* Right side - Laptop Display */}
-            <div className="flex justify-center lg:justify-end">
-              <LaptopDisplay />
-            </div>
+            {/* Right side - Large Shield */}
+            <motion.div
+              initial={{ opacity: 0, x: 100, scale: 0.8 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              transition={{ delay: 0.4, duration: 1.5, ease: "easeOut" }}
+              className="flex justify-center lg:justify-end"
+            >
+              <div className="relative">
+                <motion.div
+                  animate={{ 
+                    rotate: [0, 5, -5, 0],
+                    scale: [1, 1.05, 1]
+                  }}
+                  transition={{ 
+                    duration: 6,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                  className="w-80 h-80 lg:w-96 lg:h-96 bg-gradient-to-br from-blue-500/20 to-teal-500/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-blue-400/30"
+                >
+                  <Shield className="w-48 h-48 lg:w-56 lg:h-56 text-blue-300" strokeWidth={1} />
+                </motion.div>
+                
+                {/* Ambient glow */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-teal-500/10 rounded-full blur-3xl scale-125 -z-10"></div>
+                
+                {/* Floating particles */}
+                <motion.div
+                  animate={{ 
+                    x: [0, 30, -30, 0],
+                    y: [0, -20, 20, 0],
+                    opacity: [0.3, 0.8, 0.3]
+                  }}
+                  transition={{ 
+                    duration: 8,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                  className="absolute top-8 right-8 w-4 h-4 bg-blue-400 rounded-full blur-sm"
+                />
+                
+                <motion.div
+                  animate={{ 
+                    x: [0, -25, 25, 0],
+                    y: [0, 25, -25, 0],
+                    opacity: [0.4, 0.9, 0.4]
+                  }}
+                  transition={{ 
+                    duration: 10,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 2
+                  }}
+                  className="absolute bottom-12 left-8 w-3 h-3 bg-teal-400 rounded-full blur-sm"
+                />
+              </div>
+            </motion.div>
           </div>
         </div>
       </main>
 
       {/* Features Section */}
-      <section id="features" ref={featuresRef} className="relative z-10 px-6 py-32 mckinsey-smooth-section">
+      <section id="features" ref={featuresRef} className="relative z-10 px-6 py-32 bg-gradient-to-br from-slate-800/50 to-blue-800/50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto">
           <div className="mb-20 max-w-4xl">
             <motion.div className="mb-8">
@@ -229,22 +279,19 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 icon: Upload,
                 title: 'Intelligent Document Processing',
                 description: 'Advanced AI-powered document analysis with real-time validation, automated data extraction, and seamless integration with existing enterprise systems.',
-                color: 'mckinsey-accent-blue',
-                metrics: '99.7% Accuracy'
+                color: 'mckinsey-accent-blue'
               },
               {
                 icon: FileText,
                 title: 'Dynamic Invoice Generation',
                 description: 'Professional templates with intelligent automation, custom branding capabilities, and sophisticated calculation engines for complex billing scenarios.',
-                color: 'mckinsey-accent-teal',
-                metrics: '50% Faster Processing'
+                color: 'mckinsey-accent-teal'
               },
               {
                 icon: Lock,
                 title: 'Enterprise Security Framework',
                 description: 'Military-grade encryption, zero-trust architecture, comprehensive audit trails, and compliance with global financial regulations.',
-                color: 'mckinsey-accent-indigo',
-                metrics: 'Bank-Level Security'
+                color: 'mckinsey-accent-indigo'
               }
             ].map((feature, index) => (
               <motion.div 
@@ -257,12 +304,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 </div>
                 
                 <div className="mb-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-heading-2 text-white mckinsey-font-semibold">{feature.title}</h3>
-                    <span className="text-xs px-3 py-1 bg-gradient-to-r from-green-600/20 to-green-500/20 border border-green-400/30 rounded-full text-green-300 mckinsey-font-medium">
-                      {feature.metrics}
-                    </span>
-                  </div>
+                  <h3 className="text-heading-2 text-white mckinsey-font-semibold mb-3">{feature.title}</h3>
                   <p className="text-slate-300 leading-relaxed mckinsey-font text-body-medium">{feature.description}</p>
                 </div>
 
@@ -279,7 +321,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
       </section>
 
       {/* Security Section */}
-      <section id="security" ref={securityRef} className="relative z-10 px-6 py-32 mckinsey-smooth-section-alt">
+      <section id="security" ref={securityRef} className="relative z-10 px-6 py-32 bg-gradient-to-br from-blue-800/50 to-slate-800/50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-20 items-center">
             <div>
@@ -366,11 +408,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" ref={pricingRef} className="relative z-10 px-6 py-32 mckinsey-smooth-section">
+      <section id="pricing" ref={pricingRef} className="relative z-10 px-6 py-32 bg-gradient-to-br from-slate-800/50 to-blue-800/50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto text-center">
           <motion.div className="mb-8">
             <span className="inline-block px-4 py-2 bg-gradient-to-r from-gold-600/20 to-yellow-600/20 border border-gold-400/30 rounded-full text-sm mckinsey-font-medium text-gold-200 backdrop-blur-sm">
-              Investment Plans
+              Invoice Bundles
             </span>
           </motion.div>
 
@@ -386,66 +428,83 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {[
               {
-                name: 'Professional',
-                price: '$49',
+                name: 'Basic',
+                price: '$10',
                 description: 'Perfect for growing businesses',
-                features: ['Up to 50 invoices/month', 'Professional templates', 'Email support', 'Blockchain security', 'Basic analytics'],
-                highlight: false
+                features: ['Up to 10 invoices/month', 'Professional templates', 'Email support', 'Blockchain security', 'Basic analytics'],
+                highlight: false,
+                gradient: 'from-blue-600/20 to-blue-800/20',
+                border: 'border-blue-400/30',
+                glow: 'from-blue-500/20 to-blue-600/20'
               },
               {
-                name: 'Enterprise',
-                price: '$149',
+                name: 'Pro',
+                price: '$30',
                 description: 'Advanced features for scale',
-                features: ['Up to 500 invoices/month', 'Custom templates', 'Priority support', 'Advanced analytics', 'API access', 'White-label options'],
-                highlight: true
+                features: ['Up to 100 invoices/month', 'Custom templates', 'Priority support', 'Advanced analytics', 'API access', 'White-label options'],
+                highlight: true,
+                gradient: 'from-purple-600/30 to-pink-600/30',
+                border: 'border-purple-400/50',
+                glow: 'from-purple-500/30 to-pink-500/30'
               },
               {
-                name: 'Global',
-                price: '$399',
+                name: 'Premium',
+                price: '$90',
                 description: 'Complete enterprise solution',
-                features: ['Unlimited invoices', 'Full customization', 'Dedicated support', 'Enterprise security', 'Custom integrations', 'SLA guarantee']
+                features: ['Unlimited invoices', 'Full customization', 'Dedicated support', 'Enterprise security', 'Custom integrations', 'SLA guarantee'],
+                highlight: false,
+                gradient: 'from-emerald-600/20 to-teal-800/20',
+                border: 'border-emerald-400/30',
+                glow: 'from-emerald-500/20 to-teal-600/20'
               }
             ].map((plan, index) => (
               <motion.div
                 key={index}
-                className={`p-8 rounded-2xl backdrop-blur-sm will-change-transform ${
-                  plan.highlight 
-                    ? 'mckinsey-card-gradient border-2 border-blue-400/50 shadow-mckinsey-strong' 
-                    : 'mckinsey-card-gradient shadow-mckinsey-medium'
+                className={`relative p-8 rounded-2xl backdrop-blur-sm will-change-transform bg-gradient-to-br ${plan.gradient} border ${plan.border} ${
+                  plan.highlight ? 'shadow-mckinsey-strong scale-105' : 'shadow-mckinsey-medium'
                 }`}
-                whileHover={{ y: -8, scale: 1.02 }}
+                whileHover={{ y: -8, scale: plan.highlight ? 1.08 : 1.02 }}
               >
+                {/* Glow Effects */}
+                {plan.highlight ? (
+                  <div className={`absolute -top-4 -right-4 w-32 h-32 bg-gradient-to-br ${plan.glow} rounded-full blur-2xl opacity-60`}></div>
+                ) : (
+                  <div className={`absolute -bottom-4 -right-4 w-24 h-24 bg-gradient-to-br ${plan.glow} rounded-full blur-xl opacity-40`}></div>
+                )}
+                
                 {plan.highlight && (
-                  <div className="bg-gradient-to-r from-blue-500 to-teal-500 text-white px-4 py-2 rounded-full text-sm mckinsey-font-semibold mb-6 inline-block">
+                  <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full text-sm mckinsey-font-semibold mb-6 inline-block">
                     Most Popular
                   </div>
                 )}
                 
-                <div className="mb-6">
-                  <h3 className="text-heading-2 text-white mb-2 mckinsey-font-semibold">{plan.name}</h3>
-                  <p className="text-slate-400 mckinsey-font text-sm mb-4">{plan.description}</p>
-                  <div className="text-display-1 text-white mb-2 mckinsey-font-semibold">{plan.price}</div>
-                  <div className="text-slate-400 mckinsey-font">per month</div>
+                <div className="relative z-10">
+                  <div className="mb-6">
+                    <h3 className="text-heading-2 text-white mb-2 mckinsey-font-semibold">{plan.name}</h3>
+                    <p className="text-slate-400 mckinsey-font text-sm mb-4">{plan.description}</p>
+                    <div className="text-display-1 text-white mb-2 mckinsey-font-semibold">{plan.price}</div>
+                    <div className="text-slate-400 mckinsey-font">per month</div>
+                  </div>
+
+                  <ul className="space-y-4 mb-8">
+                    {plan.features.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="text-slate-300 flex items-start mckinsey-font text-sm">
+                        <CheckCircle className="w-5 h-5 text-teal-400 mr-3 mt-0.5 flex-shrink-0" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Button 
+                    className={`w-full py-4 mckinsey-font-semibold ${
+                      plan.highlight 
+                        ? 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white' 
+                        : 'bg-slate-700/50 hover:bg-slate-600/50 text-slate-200 border border-slate-600/50'
+                    }`}
+                  >
+                    Get Started
+                  </Button>
                 </div>
-
-                <ul className="space-y-4 mb-8">
-                  {plan.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="text-slate-300 flex items-start mckinsey-font text-sm">
-                      <CheckCircle className="w-5 h-5 text-teal-400 mr-3 mt-0.5 flex-shrink-0" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-
-                <Button 
-                  className={`w-full py-4 mckinsey-font-semibold ${
-                    plan.highlight 
-                      ? 'bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white' 
-                      : 'bg-slate-700/50 hover:bg-slate-600/50 text-slate-200 border border-slate-600/50'
-                  }`}
-                >
-                  Get Started
-                </Button>
               </motion.div>
             ))}
           </div>
@@ -453,7 +512,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
       </section>
 
       {/* About Section */}
-      <section id="about" ref={aboutRef} className="relative z-10 px-6 py-32 mckinsey-smooth-section-alt">
+      <section id="about" ref={aboutRef} className="relative z-10 px-6 py-32 bg-gradient-to-br from-blue-800/50 to-slate-800/50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto text-center">
           <motion.div className="mb-8">
             <span className="inline-block px-4 py-2 bg-gradient-to-r from-slate-600/20 to-slate-500/20 border border-slate-400/30 rounded-full text-sm mckinsey-font-medium text-slate-200 backdrop-blur-sm">
@@ -510,7 +569,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 px-6 py-16 border-t border-slate-700/50 mckinsey-smooth-section">
+      <footer className="relative z-10 px-6 py-16 border-t border-slate-700/50 bg-gradient-to-br from-slate-800/50 to-blue-800/50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto text-center">
           <div className="mb-8">
             <h3 className="text-heading-1 text-white mb-4 mckinsey-font-semibold">Ready to Transform Your Business?</h3>

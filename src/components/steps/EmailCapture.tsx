@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Mail, ArrowRight, ArrowLeft } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
-import { FixedMcKinseyCurves } from '../animations/FixedMcKinseyCurves';
 import { Navigation } from '../layout/Navigation';
 
 interface EmailCaptureProps {
@@ -33,8 +32,7 @@ export const EmailCapture: React.FC<EmailCaptureProps> = ({ onNext, onBack, init
   };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-6">
-      <FixedMcKinseyCurves />
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center px-6">
       <Navigation />
       
       <motion.div

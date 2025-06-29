@@ -33,8 +33,47 @@ export const PricingPlans: React.FC<PricingPlansProps> = ({ onNext, onBack }) =>
     }
   };
 
+  const getPlanGradient = (planId: string, isSelected: boolean) => {
+    if (isSelected) {
+      switch (planId) {
+        case 'basic':
+          return 'bg-gradient-to-br from-blue-600/30 to-blue-800/30 border-blue-400/50';
+        case 'pro':
+          return 'bg-gradient-to-br from-purple-600/30 to-pink-600/30 border-purple-400/50';
+        case 'premium':
+          return 'bg-gradient-to-br from-emerald-600/30 to-teal-800/30 border-emerald-400/50';
+        default:
+          return 'bg-gradient-to-br from-gray-800/80 to-gray-900/80 border-gray-700/50';
+      }
+    }
+    
+    switch (planId) {
+      case 'basic':
+        return 'bg-gradient-to-br from-blue-600/10 to-blue-800/10 border-blue-400/20';
+      case 'pro':
+        return 'bg-gradient-to-br from-purple-600/20 to-pink-600/20 border-purple-400/30';
+      case 'premium':
+        return 'bg-gradient-to-br from-emerald-600/10 to-teal-800/10 border-emerald-400/20';
+      default:
+        return 'bg-gradient-to-br from-gray-800/80 to-gray-900/80 border-gray-700/50';
+    }
+  };
+
+  const getPlanGlow = (planId: string) => {
+    switch (planId) {
+      case 'basic':
+        return 'from-blue-500/20 to-blue-600/20';
+      case 'pro':
+        return 'from-purple-500/30 to-pink-500/30';
+      case 'premium':
+        return 'from-emerald-500/20 to-teal-600/20';
+      default:
+        return 'from-slate-500/20 to-gray-500/20';
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-black py-12 px-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 py-12 px-6">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -53,6 +92,8 @@ export const PricingPlans: React.FC<PricingPlansProps> = ({ onNext, onBack }) =>
           {pricingPlans.map((plan, index) => {
             const Icon = getPlanIcon(plan.id);
             const isSelected = selectedPlan?.id === plan.id;
+            const gradientClasses = getPlanGradient(plan.id, isSelected);
+            const glowClasses = getPlanGlow(plan.id);
             
             return (
               <motion.div
@@ -64,46 +105,36 @@ export const PricingPlans: React.FC<PricingPlansProps> = ({ onNext, onBack }) =>
               >
                 {plan.recommended && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
-                    <div className="bg-white text-black px-4 py-1 rounded-full text-sm font-medium">
+                    <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-1 rounded-full text-sm font-medium">
                       Recommended
                     </div>
                   </div>
                 )}
                 
                 <div
-                  className={`relative p-8 h-full cursor-pointer transition-all duration-200 rounded-xl border backdrop-blur-sm ${
-                    isSelected
-                      ? 'ring-2 ring-white shadow-xl'
-                      : plan.recommended
-                      ? 'border-white/30'
-                      : 'border-gray-700/50'
-                  } ${
-                    plan.recommended
-                      ? 'bg-gradient-to-br from-gray-800/80 to-gray-900/80'
-                      : 'bg-gradient-to-br from-gray-800/80 to-gray-900/80'
-                  }`}
+                  className={`relative p-8 h-full cursor-pointer transition-all duration-200 rounded-xl border backdrop-blur-sm ${gradientClasses} ${
+                    isSelected ? 'ring-2 ring-white shadow-xl transform scale-105' : ''
+                  } ${plan.recommended ? 'transform scale-105' : ''}`}
                   onClick={() => setSelectedPlan(plan)}
                 >
                   {/* Glow Effects */}
                   {plan.recommended ? (
-                    // Top-right glow for Pro plan
-                    <div className="absolute -top-2 -right-2 w-32 h-32 bg-gradient-to-br from-blue-500/30 to-teal-500/30 rounded-full blur-2xl opacity-60"></div>
+                    <div className={`absolute -top-4 -right-4 w-32 h-32 bg-gradient-to-br ${glowClasses} rounded-full blur-2xl opacity-60`}></div>
                   ) : (
-                    // Bottom-right glow for other plans
-                    <div className="absolute -bottom-2 -right-2 w-24 h-24 bg-gradient-to-br from-slate-500/20 to-gray-500/20 rounded-full blur-xl opacity-40"></div>
+                    <div className={`absolute -bottom-4 -right-4 w-24 h-24 bg-gradient-to-br ${glowClasses} rounded-full blur-xl opacity-40`}></div>
                   )}
                   
-                  <div className="relative z-10">
+                  <div className="relative z-10 flex flex-col h-full">
                     <div className="text-center mb-6">
                       <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${
                         plan.id === 'basic' ? 'bg-blue-900/50' :
-                        plan.id === 'pro' ? 'bg-green-900/50' :
-                        'bg-purple-900/50'
+                        plan.id === 'pro' ? 'bg-purple-900/50' :
+                        'bg-emerald-900/50'
                       }`}>
                         <Icon className={`w-8 h-8 ${
                           plan.id === 'basic' ? 'text-blue-400' :
-                          plan.id === 'pro' ? 'text-green-400' :
-                          'text-purple-400'
+                          plan.id === 'pro' ? 'text-purple-400' :
+                          'text-emerald-400'
                         }`} />
                       </div>
                       
@@ -114,7 +145,7 @@ export const PricingPlans: React.FC<PricingPlansProps> = ({ onNext, onBack }) =>
                       <div className="text-gray-400">per month</div>
                     </div>
 
-                    <div className="space-y-3 mb-8">
+                    <div className="space-y-3 mb-8 flex-grow">
                       {plan.features.map((feature, featureIndex) => (
                         <div key={featureIndex} className="flex items-start space-x-3">
                           <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
@@ -123,7 +154,7 @@ export const PricingPlans: React.FC<PricingPlansProps> = ({ onNext, onBack }) =>
                       ))}
                     </div>
 
-                    {/* Selection button moved to bottom */}
+                    {/* Selection button at bottom */}
                     <div className="mt-auto">
                       <Button
                         variant={isSelected ? 'primary' : 'outline'}
