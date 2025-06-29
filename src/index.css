@@ -71,26 +71,36 @@
     letter-spacing: -0.025em;
   }
 
-  .mckinsey-gradient-bg {
+  .mckinsey-smooth-gradient {
     background: linear-gradient(135deg, 
       #0a1628 0%, 
-      #1e3a5f 15%, 
-      #2d5a87 35%, 
-      #4a7ba7 55%, 
-      #2d5a87 75%, 
-      #1e3a5f 85%, 
+      #1a2f4a 20%, 
+      #2d4a6b 40%, 
+      #3a5f7d 60%, 
+      #2d4a6b 80%, 
       #0a1628 100%
     );
     background-attachment: fixed;
   }
 
-  .mckinsey-section-gradient {
+  .mckinsey-smooth-section {
     background: linear-gradient(180deg, 
-      rgba(10, 22, 40, 0.98) 0%, 
-      rgba(30, 58, 95, 0.95) 25%, 
-      rgba(45, 90, 135, 0.92) 50%, 
-      rgba(30, 58, 95, 0.95) 75%, 
-      rgba(10, 22, 40, 0.98) 100%
+      rgba(10, 22, 40, 0.95) 0%, 
+      rgba(26, 47, 74, 0.92) 25%, 
+      rgba(45, 74, 107, 0.88) 50%, 
+      rgba(26, 47, 74, 0.92) 75%, 
+      rgba(10, 22, 40, 0.95) 100%
+    );
+    backdrop-filter: blur(8px);
+  }
+
+  .mckinsey-smooth-section-alt {
+    background: linear-gradient(180deg, 
+      rgba(15, 30, 50, 0.95) 0%, 
+      rgba(30, 50, 80, 0.92) 25%, 
+      rgba(40, 65, 95, 0.88) 50%, 
+      rgba(30, 50, 80, 0.92) 75%, 
+      rgba(15, 30, 50, 0.95) 100%
     );
     backdrop-filter: blur(8px);
   }

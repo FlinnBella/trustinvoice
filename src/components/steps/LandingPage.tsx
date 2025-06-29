@@ -4,7 +4,7 @@ import { Shield, ArrowRight, Lock, Zap, Globe, Upload, FileText, TrendingUp, Use
 import { Button } from '../ui/Button';
 import { FixedMcKinseyCurves } from '../animations/FixedMcKinseyCurves';
 import { ResponsiveNavigation } from '../layout/ResponsiveNavigation';
-import { OptimizedBrowser3D } from '../3d/OptimizedBrowser3D';
+import { LargeShield } from '../ui/LargeShield';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -106,7 +106,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
   }, []);
 
   return (
-    <div className="min-h-screen mckinsey-gradient-bg relative overflow-hidden">
+    <div className="min-h-screen mckinsey-smooth-gradient relative overflow-hidden">
       <FixedMcKinseyCurves />
       <ResponsiveNavigation />
       
@@ -196,21 +196,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
               </motion.div>
             </div>
 
-            {/* Right side - 3D Browser */}
-            <motion.div
-              initial={{ opacity: 0, x: 100, scale: 0.8 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              transition={{ delay: 0.4, duration: 1.5, ease: "easeOut" }}
-              className="relative h-96 lg:h-[650px] will-change-transform"
-            >
-              <OptimizedBrowser3D />
-            </motion.div>
+            {/* Right side - Large Shield */}
+            <div className="flex justify-center lg:justify-end">
+              <LargeShield />
+            </div>
           </div>
         </div>
       </main>
 
       {/* Features Section */}
-      <section id="features" ref={featuresRef} className="relative z-10 px-6 py-32 mckinsey-section-gradient">
+      <section id="features" ref={featuresRef} className="relative z-10 px-6 py-32 mckinsey-smooth-section">
         <div className="max-w-7xl mx-auto">
           <div className="mb-20 max-w-4xl">
             <motion.div className="mb-8">
@@ -284,7 +279,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
       </section>
 
       {/* Security Section */}
-      <section id="security" ref={securityRef} className="relative z-10 px-6 py-32">
+      <section id="security" ref={securityRef} className="relative z-10 px-6 py-32 mckinsey-smooth-section-alt">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-20 items-center">
             <div>
@@ -350,7 +345,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                   <div className="ml-4 text-slate-300">bool private paid = false;</div>
                   <div className="ml-4 text-slate-300">uint256 immutable dueDate;</div>
                   <div className="ml-4 text-green-300">modifier onlyAfterDue() &#123;</div>
-                  <div className="ml-8 text-slate-300">require(block.timestamp &gt; dueDate);</div>
+                  <div className="ml-8 text-slate-300">require(block.timestamp > dueDate);</div>
                   <div className="ml-8 text-slate-300">_;</div>
                   <div className="ml-4 text-green-300">&#125;</div>
                   <div className="ml-4 text-yellow-300">event PaymentExecuted(uint256 amount);</div>
@@ -371,7 +366,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" ref={pricingRef} className="relative z-10 px-6 py-32 mckinsey-section-gradient">
+      <section id="pricing" ref={pricingRef} className="relative z-10 px-6 py-32 mckinsey-smooth-section">
         <div className="max-w-7xl mx-auto text-center">
           <motion.div className="mb-8">
             <span className="inline-block px-4 py-2 bg-gradient-to-r from-gold-600/20 to-yellow-600/20 border border-gold-400/30 rounded-full text-sm mckinsey-font-medium text-gold-200 backdrop-blur-sm">
@@ -458,7 +453,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
       </section>
 
       {/* About Section */}
-      <section id="about" ref={aboutRef} className="relative z-10 px-6 py-32">
+      <section id="about" ref={aboutRef} className="relative z-10 px-6 py-32 mckinsey-smooth-section-alt">
         <div className="max-w-7xl mx-auto text-center">
           <motion.div className="mb-8">
             <span className="inline-block px-4 py-2 bg-gradient-to-r from-slate-600/20 to-slate-500/20 border border-slate-400/30 rounded-full text-sm mckinsey-font-medium text-slate-200 backdrop-blur-sm">
@@ -515,7 +510,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 px-6 py-16 border-t border-slate-700/50">
+      <footer className="relative z-10 px-6 py-16 border-t border-slate-700/50 mckinsey-smooth-section">
         <div className="max-w-7xl mx-auto text-center">
           <div className="mb-8">
             <h3 className="text-heading-1 text-white mb-4 mckinsey-font-semibold">Ready to Transform Your Business?</h3>
