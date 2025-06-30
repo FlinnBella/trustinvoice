@@ -11,6 +11,7 @@ export interface EmailRequest {
     companyName: string;
     dueDate: string;
     pdfUrl?: string;
+    pdfDataUrl?: string;
     contractAddress?: string;
     transactionHash?: string;
     paymentLink?: string;
@@ -41,7 +42,7 @@ export class EmailService {
 
   async sendEmail(request: EmailRequest): Promise<{ success: boolean; emailId?: string; error?: string }> {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/email-service`, {
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/resend-email-service`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,

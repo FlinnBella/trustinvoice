@@ -1,9 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle, Download, Mail, ExternalLink } from 'lucide-react';
+import { CheckCircle, Download, Mail, ExternalLink, FileText } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
+import { LoadingSpinner } from '../ui/LoadingSpinner';
 import { emailService } from '../../lib/email-service';
+import { pdfGenerator } from '../../lib/pdf-generator';
+import { useToast } from '../../hooks/useToast';
+import { InvoiceData } from '../../types';
 
 interface SuccessProps {
   onStartNew: () => void;
@@ -28,43 +32,54 @@ export const Success: React.FC<SuccessProps> = ({
   invoiceData,
   userPlan = 'basic'
 }) => {
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+  const [isSendingEmail, setIsSendingEmail] = useState(false);
+  const [pdfGenerated, setPdfGenerated] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
+  const { success, error } = useToast();
+
   useEffect(() => {
-    // Send invoice created email when component mounts
+    // Auto-generate PDF and send email when component mounts
     if (invoiceData) {
-      const sendInvoiceEmail = async () => {
-        try {
-          const result = await emailService.sendInvoiceCreatedEmail(
-            invoiceData.recipientEmail,
-            invoiceData.userEmail,
-            {
-              invoiceNumber: invoiceData.invoiceNumber,
-              amount: invoiceData.amount,
-              description: invoiceData.description,
-              companyName: invoiceData.companyName,
-              dueDate: invoiceData.dueDate,
-              contractAddress: invoiceData.contractAddress,
-              transactionHash: invoiceData.transactionHash,
-              paymentLink: `${window.location.origin}/pay/${invoiceId}`
-            },
-            userPlan
-          );
-
-          if (!result.success) {
-            console.error('Failed to send invoice email:', result.error);
-          }
-        } catch (error) {
-          console.error('Error sending invoice email:', error);
-        }
-      };
-
-      sendInvoiceEmail();
+      handleAutoProcessing();
     }
-  }, [invoiceData, invoiceId, userPlan]);
+  }, [invoiceData]);
 
-  const handleResendEmail = async () => {
+  const handleAutoProcessing = async () => {
     if (!invoiceData) return;
 
     try {
+      // Generate PDF first
+      setIsGeneratingPDF(true);
+      const fullInvoiceData: InvoiceData = {
+        id: invoiceId,
+        userEmail: invoiceData.userEmail,
+        recipientEmail: invoiceData.recipientEmail,
+        amount: invoiceData.amount,
+        description: invoiceData.description,
+        dueDate: invoiceData.dueDate,
+        invoiceNumber: invoiceData.invoiceNumber,
+        companyName: invoiceData.companyName,
+        companyAddress: '',
+        items: [
+          {
+            description: invoiceData.description,
+            quantity: 1,
+            rate: invoiceData.amount,
+            amount: invoiceData.amount
+          }
+        ],
+        status: 'sent',
+        smart_contract_address: invoiceData.contractAddress,
+        blockchain_tx_hash: invoiceData.transactionHash
+      };
+
+      const pdfDataUrl = await pdfGenerator.getPDFDataURL(fullInvoiceData);
+      setPdfGenerated(true);
+      setIsGeneratingPDF(false);
+
+      // Send email with PDF attachment
+      setIsSendingEmail(true);
       const result = await emailService.sendInvoiceCreatedEmail(
         invoiceData.recipientEmail,
         invoiceData.userEmail,
@@ -76,19 +91,121 @@ export const Success: React.FC<SuccessProps> = ({
           dueDate: invoiceData.dueDate,
           contractAddress: invoiceData.contractAddress,
           transactionHash: invoiceData.transactionHash,
-          paymentLink: `${window.location.origin}/pay/${invoiceId}`
+          paymentLink: `${window.location.origin}/pay/${invoiceId}`,
+          pdfDataUrl: pdfDataUrl
+        },
+        userPlan
+      );
+
+      setIsSendingEmail(false);
+
+      if (result.success) {
+        setEmailSent(true);
+        success('Email Sent', 'Invoice email sent successfully with PDF attachment');
+      } else {
+        error('Email Failed', result.error || 'Failed to send email');
+      }
+    } catch (err) {
+      console.error('Auto-processing failed:', err);
+      setIsGeneratingPDF(false);
+      setIsSendingEmail(false);
+      error('Processing Failed', err instanceof Error ? err.message : 'Unknown error');
+    }
+  };
+
+  const handleDownloadPDF = async () => {
+    if (!invoiceData) return;
+
+    try {
+      const fullInvoiceData: InvoiceData = {
+        id: invoiceId,
+        userEmail: invoiceData.userEmail,
+        recipientEmail: invoiceData.recipientEmail,
+        amount: invoiceData.amount,
+        description: invoiceData.description,
+        dueDate: invoiceData.dueDate,
+        invoiceNumber: invoiceData.invoiceNumber,
+        companyName: invoiceData.companyName,
+        companyAddress: '',
+        items: [
+          {
+            description: invoiceData.description,
+            quantity: 1,
+            rate: invoiceData.amount,
+            amount: invoiceData.amount
+          }
+        ],
+        status: 'sent',
+        smart_contract_address: invoiceData.contractAddress,
+        blockchain_tx_hash: invoiceData.transactionHash
+      };
+
+      await pdfGenerator.downloadPDF(fullInvoiceData);
+      success('PDF Downloaded', 'Invoice PDF downloaded successfully');
+    } catch (err) {
+      console.error('PDF download failed:', err);
+      error('Download Failed', 'Failed to download PDF');
+    }
+  };
+
+  const handleResendEmail = async () => {
+    if (!invoiceData) return;
+
+    try {
+      setIsSendingEmail(true);
+      
+      const fullInvoiceData: InvoiceData = {
+        id: invoiceId,
+        userEmail: invoiceData.userEmail,
+        recipientEmail: invoiceData.recipientEmail,
+        amount: invoiceData.amount,
+        description: invoiceData.description,
+        dueDate: invoiceData.dueDate,
+        invoiceNumber: invoiceData.invoiceNumber,
+        companyName: invoiceData.companyName,
+        companyAddress: '',
+        items: [
+          {
+            description: invoiceData.description,
+            quantity: 1,
+            rate: invoiceData.amount,
+            amount: invoiceData.amount
+          }
+        ],
+        status: 'sent',
+        smart_contract_address: invoiceData.contractAddress,
+        blockchain_tx_hash: invoiceData.transactionHash
+      };
+
+      const pdfDataUrl = await pdfGenerator.getPDFDataURL(fullInvoiceData);
+
+      const result = await emailService.sendInvoiceCreatedEmail(
+        invoiceData.recipientEmail,
+        invoiceData.userEmail,
+        {
+          invoiceNumber: invoiceData.invoiceNumber,
+          amount: invoiceData.amount,
+          description: invoiceData.description,
+          companyName: invoiceData.companyName,
+          dueDate: invoiceData.dueDate,
+          contractAddress: invoiceData.contractAddress,
+          transactionHash: invoiceData.transactionHash,
+          paymentLink: `${window.location.origin}/pay/${invoiceId}`,
+          pdfDataUrl: pdfDataUrl
         },
         userPlan
       );
 
       if (result.success) {
-        alert('Email sent successfully!');
+        success('Email Sent', 'Invoice email resent successfully');
       } else {
-        alert('Failed to send email: ' + result.error);
+        error('Email Failed', result.error || 'Failed to send email');
       }
-    } catch (error) {
-      console.error('Error resending email:', error);
-      alert('Failed to send email');
+    } catch (err) {
+      console.error('Error resending email:', err);
+      error('Send Failed', 'Failed to send email');
+    } finally {
+      setIsSendingEmail(false);
     }
   };
 
@@ -123,14 +240,60 @@ export const Success: React.FC<SuccessProps> = ({
           transition={{ delay: 0.6 }}
           className="text-xl text-gray-300 mb-8"
         >
-          Your invoice has been created and sent to the recipient via email.
-          {invoiceData?.contractAddress && " It's also secured on the blockchain!"}
+          Your invoice has been created and is being processed.
+          {invoiceData?.contractAddress && " It's also secured on the Algorand blockchain!"}
         </motion.p>
 
+        {/* Processing Status */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
+          className="mb-8"
+        >
+          <Card className="p-6">
+            <h3 className="text-lg font-semibold text-white mb-4">Processing Status</h3>
+            
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-gray-300">PDF Generation</span>
+                <div className="flex items-center space-x-2">
+                  {isGeneratingPDF ? (
+                    <LoadingSpinner size="sm" />
+                  ) : pdfGenerated ? (
+                    <CheckCircle className="w-5 h-5 text-green-400" />
+                  ) : (
+                    <div className="w-5 h-5 border-2 border-gray-600 rounded-full" />
+                  )}
+                  <span className={`text-sm ${pdfGenerated ? 'text-green-400' : 'text-gray-400'}`}>
+                    {isGeneratingPDF ? 'Generating...' : pdfGenerated ? 'Complete' : 'Pending'}
+                  </span>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <span className="text-gray-300">Email Delivery</span>
+                <div className="flex items-center space-x-2">
+                  {isSendingEmail ? (
+                    <LoadingSpinner size="sm" />
+                  ) : emailSent ? (
+                    <CheckCircle className="w-5 h-5 text-green-400" />
+                  ) : (
+                    <div className="w-5 h-5 border-2 border-gray-600 rounded-full" />
+                  )}
+                  <span className={`text-sm ${emailSent ? 'text-green-400' : 'text-gray-400'}`}>
+                    {isSendingEmail ? 'Sending...' : emailSent ? 'Sent' : 'Pending'}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.0 }}
           className="mb-8"
         >
           <Card className="p-6">
@@ -146,15 +309,15 @@ export const Success: React.FC<SuccessProps> = ({
                       <div>Due Date: <span className="text-white">{new Date(invoiceData.dueDate).toLocaleDateString()}</span></div>
                     </>
                   )}
-                  <div>Status: <span className="text-green-400">Sent</span></div>
+                  <div>Status: <span className="text-green-400">Created</span></div>
                 </div>
               </div>
               
               <div>
                 <h3 className="font-semibold text-white mb-2">Next Steps</h3>
                 <div className="space-y-2 text-sm text-gray-300">
-                  <div>✓ Invoice email sent</div>
-                  <div>✓ Payment tracking active</div>
+                  <div>✓ Invoice PDF generated</div>
+                  <div>✓ Email sent to recipient</div>
                   {invoiceData?.contractAddress && <div>✓ Smart contract deployed</div>}
                   <div>⏳ Awaiting recipient payment</div>
                 </div>
@@ -163,11 +326,11 @@ export const Success: React.FC<SuccessProps> = ({
 
             {invoiceData?.contractAddress && (
               <div className="mt-6 p-4 bg-green-900/20 rounded-lg border border-green-600/30">
-                <h4 className="font-semibold text-green-300 mb-2">🔗 Blockchain Security</h4>
+                <h4 className="font-semibold text-green-300 mb-2">🔗 Algorand Blockchain Security</h4>
                 <div className="space-y-1 text-sm text-green-300">
-                  <div>Contract: <span className="font-mono text-xs">{invoiceData.contractAddress}</span></div>
+                  <div>Contract: <span className="font-mono text-xs break-all">{invoiceData.contractAddress}</span></div>
                   {invoiceData.transactionHash && (
-                    <div>Transaction: <span className="font-mono text-xs">{invoiceData.transactionHash}</span></div>
+                    <div>Transaction: <span className="font-mono text-xs break-all">{invoiceData.transactionHash}</span></div>
                   )}
                 </div>
               </div>
@@ -178,21 +341,24 @@ export const Success: React.FC<SuccessProps> = ({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.0 }}
+          transition={{ delay: 1.2 }}
           className="flex flex-col sm:flex-row gap-4 justify-center mb-8"
         >
           <Button
             variant="outline"
+            onClick={handleDownloadPDF}
             className="flex items-center space-x-2"
+            disabled={!pdfGenerated}
           >
             <Download size={16} />
-            <span>Download Invoice</span>
+            <span>Download PDF</span>
           </Button>
           
           {invoiceData?.contractAddress && (
             <Button
               variant="outline"
               className="flex items-center space-x-2"
+              onClick={() => window.open(`https://testnet.algoexplorer.io/tx/${invoiceData.transactionHash}`, '_blank')}
             >
               <ExternalLink size={16} />
               <span>View on Blockchain</span>
@@ -202,9 +368,14 @@ export const Success: React.FC<SuccessProps> = ({
           <Button
             variant="outline"
             onClick={handleResendEmail}
+            disabled={isSendingEmail}
             className="flex items-center space-x-2"
           >
-            <Mail size={16} />
+            {isSendingEmail ? (
+              <LoadingSpinner size="sm" />
+            ) : (
+              <Mail size={16} />
+            )}
             <span>Resend Email</span>
           </Button>
         </motion.div>
@@ -212,7 +383,7 @@ export const Success: React.FC<SuccessProps> = ({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2 }}
+          transition={{ delay: 1.4 }}
         >
           <Button
             onClick={onStartNew}
@@ -226,7 +397,7 @@ export const Success: React.FC<SuccessProps> = ({
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.4 }}
+          transition={{ delay: 1.6 }}
           className="mt-8 text-sm text-gray-400"
         >
           You'll receive email notifications when the payment is received and processed.
