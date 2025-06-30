@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [
     react({
       fastRefresh: true,
-      jsxRuntime: 'automatic'
+      jsxRuntime: 'classic'
     })
   ],
   optimizeDeps: {
