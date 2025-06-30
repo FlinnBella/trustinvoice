@@ -12,6 +12,8 @@ export interface InvoiceData {
   status: 'draft' | 'sent' | 'paid' | 'overdue';
   createdAt?: string;
   pdfUrl?: string;
+  smart_contract_address?: string;
+  blockchain_tx_hash?: string;
 }
 
 export interface InvoiceItem {
@@ -27,6 +29,7 @@ export interface PricingPlan {
   price: number;
   features: string[];
   recommended?: boolean;
+  invoicesPerMonth: number;
 }
 
 export interface UserFlow {

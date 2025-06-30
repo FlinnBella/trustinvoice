@@ -2,6 +2,8 @@ import { ethers } from 'ethers';
 import { BlockchainService } from './blockchain';
 import { AlgorandService, AlgorandInvoice } from './algorand';
 import algosdk from 'algosdk';
+import { supabase } from './supabase';
+import { InvoiceData } from '../types';
 
 export type SupportedBlockchain = 'ethereum' | 'polygon' | 'algorand';
 
@@ -30,6 +32,32 @@ export interface CreateInvoiceParams {
   blockchain: SupportedBlockchain;
   isEscrow?: boolean;
   tokenAddress?: string;
+}
+
+export interface BlockchainResponse {
+  success: boolean;
+  network: string;
+  applicationId?: number;
+  transactionId: string;
+  blockNumber?: number;
+  contractAddress: string;
+  creatorAddress?: string;
+  explorerUrl: string;
+  transactionUrl?: string;
+  error?: string;
+}
+
+export interface EmailResponse {
+  success: boolean;
+  emailId?: string;
+  message: string;
+  smartContract?: {
+    success: boolean;
+    transactionId?: string;
+    status?: string;
+    explorerUrl?: string;
+    error?: string;
+  };
 }
 
 export class UnifiedBlockchainService {
@@ -286,6 +314,235 @@ export class UnifiedBlockchainService {
         return '';
     }
   }
+
+  async deployInvoiceContract(invoiceData: InvoiceData, accountMnemonic: string): Promise<BlockchainResponse> {
+    try {
+      const { data, error } = await supabase.functions.invoke('create-smart-contract', {
+        body: {
+          invoiceId: invoiceData.id || `invoice-${Date.now()}`,
+          invoiceNumber: invoiceData.invoiceNumber,
+          amount: invoiceData.amount,
+          recipientEmail: invoiceData.recipientEmail,
+          dueDate: invoiceData.dueDate,
+          accountMnemonic
+        }
+      });
+
+      if (error) {
+        throw new Error(`Smart contract deployment failed: ${error.message}`);
+      }
+
+      if (!data.success) {
+        throw new Error(data.error || 'Smart contract deployment failed');
+      }
+
+      return {
+        success: true,
+        network: data.network,
+        applicationId: data.applicationId,
+        transactionId: data.transactionId,
+        blockNumber: data.blockNumber,
+        contractAddress: data.contractAddress,
+        creatorAddress: data.creatorAddress,
+        explorerUrl: data.explorerUrl,
+        transactionUrl: data.transactionUrl
+      };
+
+    } catch (error: any) {
+      console.error('Blockchain deployment error:', error);
+      return {
+        success: false,
+        network: 'algorand-testnet',
+        transactionId: '',
+        contractAddress: '',
+        explorerUrl: '',
+        error: error.message
+      };
+    }
+  }
+
+  async sendInvoiceWithSmartContract(
+    invoiceData: InvoiceData, 
+    pdfUrl: string, 
+    applicationId?: number,
+    accountMnemonic?: string
+  ): Promise<EmailResponse> {
+    try {
+      const { data, error } = await supabase.functions.invoke('send-invoice-email', {
+        body: {
+          recipientEmail: invoiceData.recipientEmail,
+          invoiceData: {
+            invoiceNumber: invoiceData.invoiceNumber,
+            amount: invoiceData.amount,
+            dueDate: invoiceData.dueDate,
+            companyName: invoiceData.companyName,
+            applicationId,
+            accountMnemonic: applicationId ? accountMnemonic : undefined
+          },
+          pdfUrl
+        }
+      });
+
+      if (error) {
+        throw new Error(`Email sending failed: ${error.message}`);
+      }
+
+      return {
+        success: data.success,
+        emailId: data.emailId,
+        message: data.message,
+        smartContract: data.smartContract
+      };
+
+    } catch (error: any) {
+      console.error('Email sending error:', error);
+      return {
+        success: false,
+        message: `Failed to send email: ${error.message}`
+      };
+    }
+  }
+
+  async markInvoiceAsPaid(applicationId: number): Promise<BlockchainResponse> {
+    try {
+      // This would be called when payment is confirmed
+      // For now, we'll return a placeholder response
+      return {
+        success: true,
+        network: 'algorand-testnet',
+        transactionId: `payment-${Date.now()}`,
+        contractAddress: `algorand-app-${applicationId}`,
+        explorerUrl: `https://testnet.algoexplorer.io/application/${applicationId}`
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        network: 'algorand-testnet',
+        transactionId: '',
+        contractAddress: '',
+        explorerUrl: '',
+        error: error.message
+      };
+    }
+  }
 }
 
 export const unifiedBlockchainService = new UnifiedBlockchainService();
+
+export class AlgorandBlockchainService {
+  private accountMnemonic: string;
+
+  constructor(accountMnemonic: string) {
+    this.accountMnemonic = accountMnemonic;
+  }
+
+  async deployInvoiceContract(invoiceData: InvoiceData): Promise<BlockchainResponse> {
+    try {
+      const { data, error } = await supabase.functions.invoke('create-smart-contract', {
+        body: {
+          invoiceId: invoiceData.id || `invoice-${Date.now()}`,
+          invoiceNumber: invoiceData.invoiceNumber,
+          amount: invoiceData.amount,
+          recipientEmail: invoiceData.recipientEmail,
+          dueDate: invoiceData.dueDate,
+          accountMnemonic: this.accountMnemonic
+        }
+      });
+
+      if (error) {
+        throw new Error(`Smart contract deployment failed: ${error.message}`);
+      }
+
+      if (!data.success) {
+        throw new Error(data.error || 'Smart contract deployment failed');
+      }
+
+      return {
+        success: true,
+        network: data.network,
+        applicationId: data.applicationId,
+        transactionId: data.transactionId,
+        blockNumber: data.blockNumber,
+        contractAddress: data.contractAddress,
+        creatorAddress: data.creatorAddress,
+        explorerUrl: data.explorerUrl,
+        transactionUrl: data.transactionUrl
+      };
+
+    } catch (error: any) {
+      console.error('Blockchain deployment error:', error);
+      return {
+        success: false,
+        network: 'algorand-testnet',
+        transactionId: '',
+        contractAddress: '',
+        explorerUrl: '',
+        error: error.message
+      };
+    }
+  }
+
+  async sendInvoiceWithSmartContract(
+    invoiceData: InvoiceData, 
+    pdfUrl: string, 
+    applicationId?: number
+  ): Promise<EmailResponse> {
+    try {
+      const { data, error } = await supabase.functions.invoke('send-invoice-email', {
+        body: {
+          recipientEmail: invoiceData.recipientEmail,
+          invoiceData: {
+            invoiceNumber: invoiceData.invoiceNumber,
+            amount: invoiceData.amount,
+            dueDate: invoiceData.dueDate,
+            companyName: invoiceData.companyName,
+            applicationId,
+            accountMnemonic: applicationId ? this.accountMnemonic : undefined
+          },
+          pdfUrl
+        }
+      });
+
+      if (error) {
+        throw new Error(`Email sending failed: ${error.message}`);
+      }
+
+      return {
+        success: data.success,
+        emailId: data.emailId,
+        message: data.message,
+        smartContract: data.smartContract
+      };
+
+    } catch (error: any) {
+      console.error('Email sending error:', error);
+      return {
+        success: false,
+        message: `Failed to send email: ${error.message}`
+      };
+    }
+  }
+
+  async markInvoiceAsPaid(applicationId: number): Promise<BlockchainResponse> {
+    try {
+      // This would be called when payment is confirmed
+      // For now, we'll return a placeholder response
+      return {
+        success: true,
+        network: 'algorand-testnet',
+        transactionId: `payment-${Date.now()}`,
+        contractAddress: `algorand-app-${applicationId}`,
+        explorerUrl: `https://testnet.algoexplorer.io/application/${applicationId}`
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        network: 'algorand-testnet',
+        transactionId: '',
+        contractAddress: '',
+        explorerUrl: '',
+        error: error.message
+      };
+    }
+  }
+}

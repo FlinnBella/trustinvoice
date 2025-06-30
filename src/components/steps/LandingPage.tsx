@@ -163,13 +163,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                   <ArrowRight size={20} />
                 </Button>
                 
-                <Button
+                {/* <Button
                   variant="outline"
                   size="lg"
                   className="px-10 py-5 text-lg border-2 border-slate-300/30 text-slate-200 hover:bg-slate-200/10 hover:border-slate-200/50 transition-all duration-300 focus:ring-4 focus:ring-slate-400/20 mckinsey-font-medium backdrop-blur-sm"
                 >
                   Explore Solutions
-                </Button>
+                </Button> */}
               </motion.div>
 
               <motion.div
@@ -429,7 +429,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
             {[
               {
                 name: 'Basic',
-                price: '$10',
+                price: '$10 / .10 ALGO',
                 description: 'Perfect for growing businesses',
                 features: ['Up to 10 invoices/month', 'Professional templates', 'Email support', 'Blockchain security', 'Basic analytics'],
                 highlight: false,
@@ -439,7 +439,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
               },
               {
                 name: 'Pro',
-                price: '$30',
+                price: '$30 / .30 ALGO',
                 description: 'Advanced features for scale',
                 features: ['Up to 100 invoices/month', 'Custom templates', 'Priority support', 'Advanced analytics', 'API access', 'White-label options'],
                 highlight: true,
@@ -449,7 +449,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
               },
               {
                 name: 'Premium',
-                price: '$90',
+                price: '$90 / .90 ALGO',
                 description: 'Complete enterprise solution',
                 features: ['Unlimited invoices', 'Full customization', 'Dedicated support', 'Enterprise security', 'Custom integrations', 'SLA guarantee'],
                 highlight: false,

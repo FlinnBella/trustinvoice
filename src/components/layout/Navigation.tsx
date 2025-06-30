@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Shield } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+import boltLogo from '../../assets/bolt-logo.png';
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -65,8 +66,22 @@ export const Navigation: React.FC = () => {
             </div>
           </div>
 
-          {/* Right side placeholder for balance */}
-          <div className="hidden md:block w-32"></div>
+          {/* Right side - Bolt.new link */}
+          <div className="hidden md:block">
+            <a
+              href="https://bolt.new/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center space-x-2 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-300 hover:to-orange-400 px-4 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg group"
+            >
+              <img 
+                src={boltLogo} 
+                alt="Bolt" 
+                className="w-5 h-5 filter invert group-hover:scale-110 transition-transform duration-200" 
+              />
+              <span className="text-black font-semibold text-sm">Bolt</span>
+            </a>
+          </div>
         </div>
       </div>
     </nav>

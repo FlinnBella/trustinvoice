@@ -73,7 +73,7 @@ export const PricingPlans: React.FC<PricingPlansProps> = ({ onNext, onBack }) =>
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 py-12 px-6">
+    <div className="min-h-screen py-12 px-6">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}

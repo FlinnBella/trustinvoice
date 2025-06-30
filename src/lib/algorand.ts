@@ -2,31 +2,38 @@ import algosdk from 'algosdk';
 import { AlgorandClient, Config } from '@algorandfoundation/algokit-utils';
 
 // Algorand network configurations
+//Look at here again for clarity later on 
 export const ALGORAND_NETWORKS = {
   mainnet: {
     name: 'Algorand Mainnet',
-    server: 'https://mainnet-api.algonode.cloud',
+    server: 'https://mainnet-api.4160.nodely.dev',
+    //server: 'https://mainnet-api.algonode.cloud',
     port: 443,
     token: '',
-    indexerServer: 'https://mainnet-idx.algonode.cloud',
+    indexerServer: 'https://mainnet-idx.4160.nodely.dev',
+    //indexerServer: 'https://mainnet-idx.algonode.cloud',
     explorerUrl: 'https://algoexplorer.io',
     chainId: 'mainnet-v1.0'
   },
   testnet: {
     name: 'Algorand Testnet',
-    server: 'https://testnet-api.algonode.cloud',
+    server: 'https://testnet-api.4160.nodely.dev',
+    //server: 'https://testnet-api.algonode.cloud',
     port: 443,
     token: '',
-    indexerServer: 'https://testnet-idx.algonode.cloud',
+    indexerServer: 'https://testnet-idx.4160.nodely.dev',
+    //indexerServer: 'https://testnet-idx.algonode.cloud',
     explorerUrl: 'https://testnet.algoexplorer.io',
     chainId: 'testnet-v1.0'
   },
   betanet: {
     name: 'Algorand Betanet',
-    server: 'https://betanet-api.algonode.cloud',
+    server: 'https://betanet-api.4160.nodely.dev',
+    //server: 'https://betanet-api.algonode.cloud',
     port: 443,
     token: '',
-    indexerServer: 'https://betanet-idx.algonode.cloud',
+    indexerServer: 'https://betanet-idx.4160.nodely.dev',
+    //indexerServer: 'https://betanet-idx.algonode.cloud',
     explorerUrl: 'https://betanet.algoexplorer.io',
     chainId: 'betanet-v1.0'
   }
@@ -356,6 +363,9 @@ export class AlgorandService {
       const result = await algosdk.waitForConfirmation(this.client, txId, 4);
       
       this.appId = result['application-index'];
+      if (this.appId === null || this.appId === undefined) {
+        throw new Error('Failed to deploy contract: No application ID returned');
+      }
       return this.appId;
     } catch (error) {
       console.error('Failed to deploy contract:', error);

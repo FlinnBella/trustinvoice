@@ -32,9 +32,10 @@ export const EmailCapture: React.FC<EmailCaptureProps> = ({ onNext, onBack, init
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center px-6">
+    <div className="flex items-center justify-center">
       <Navigation />
       
+
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}

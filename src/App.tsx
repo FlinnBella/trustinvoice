@@ -11,6 +11,7 @@ import { Payment } from './components/steps/Payment';
 import { Success } from './components/steps/Success';
 import { ProcessingAnimation } from './components/animations/ProcessingAnimation';
 import { ToastContainer } from './components/ui/Toast';
+import { InvoiceFlowNavigation } from './components/layout/InvoiceFlowNavigation';
 import { useToast } from './hooks/useToast';
 import { UserFlow, InvoiceData, PricingPlan } from './types';
 
@@ -192,8 +193,14 @@ function App() {
     }
   };
 
+  // Show simplified navigation during invoice flow (steps 1-7)
+  const isInInvoiceFlow = currentStep > 0;
+
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      {/* Conditional Navigation */}
+      {isInInvoiceFlow && <InvoiceFlowNavigation />}
+
       {/* Toast Container */}
       <ToastContainer toasts={toasts} onClose={removeToast} />
 
@@ -210,15 +217,20 @@ function App() {
       <AnimatePresence mode="wait">
         <motion.div
           key={currentStep}
-          initial={{ opacity: 0, x: 20 }}
+          initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -20 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className={currentStep > 0 && currentStep < steps.length - 1 ? '' : ''}
+          exit={{ opacity: 0, x: -50 }}
+          transition={{ duration: 0.3 }}
+          className={currentStep > 0 && currentStep < steps.length - 1 ? '' : 'w-full'}
         >
           {renderStep()}
         </motion.div>
       </AnimatePresence>
+
+      {/* Processing Animation Overlay */}
+      {/*{userFlow.step === 4 && (
+        <ProcessingAnimation currentStep={currentStep} />
+      )}*/}
     </div>
   );
 }

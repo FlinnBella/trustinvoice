@@ -11,13 +11,13 @@ interface InvoiceMethodProps {
 
 export const InvoiceMethod: React.FC<InvoiceMethodProps> = ({ onNext, onBack }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center px-6">
+    <div className="flex items-center justify-center px-6">
       <Navigation />
       
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-4xl relative z-10 mt-20"
+        className="w-full max-w-4xl relative z-10"
       >
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-f5f5f5 mb-4">

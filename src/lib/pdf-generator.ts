@@ -10,7 +10,7 @@ export interface PDFGenerationOptions {
 export class PDFGenerator {
   private options: PDFGenerationOptions;
 
-  constructor(options: PDFGenerationOptions = { method: 'browser' }) {
+  constructor(options: PDFGenerationOptions = { method: 'api', apiKey: import.meta.env.VITE_PDF_API_KEY }) {
     this.options = options;
   }
 
@@ -199,6 +199,7 @@ export class PDFGenerator {
           format: 'A4',
           margin: '20px',
           print_background: true,
+          sandbox: true,
         }),
       });
 
