@@ -226,6 +226,7 @@ export const InvoiceCreation: React.FC<InvoiceCreationProps> = ({
                       <button
                         onClick={() => removeItem(index)}
                         className="p-2 text-red-400 hover:bg-red-900/20 rounded-lg transition-colors"
+                        aria-label="Remove item"
                       >
                         <Trash2 size={16} />
                       </button>

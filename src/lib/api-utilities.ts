@@ -15,9 +15,9 @@ export interface ApiKey {
 }
 
 export interface RateLimitConfig {
-  basic: { requests: 100, window: 3600 }, // 100 requests per hour
-  pro: { requests: 1000, window: 3600 },  // 1000 requests per hour
-  premium: { requests: 10000, window: 3600 } // 10000 requests per hour
+  basic: { requests: number; window: number };
+  pro: { requests: number; window: number };
+  premium: { requests: number; window: number };
 }
 
 export class ApiUtilities {
@@ -39,7 +39,7 @@ export class ApiUtilities {
         key_hash: keyHash,
         name,
         permissions,
-        rate_limit: this.getRateLimitForUser(userId),
+        rate_limit: await this.getRateLimitForUser(userId),
         is_active: true
       });
 
@@ -257,7 +257,7 @@ export class ApiUtilities {
 
     if (error) throw error;
 
-    return this.processAnalyticsData(data);
+    return this.processAnalyticsData(data || []);
   }
 
   async exportInvoiceData(userId: string, format: 'csv' | 'json' = 'csv'): Promise<string> {
@@ -274,7 +274,7 @@ export class ApiUtilities {
     if (error) throw error;
 
     if (format === 'csv') {
-      return this.convertToCSV(data);
+      return this.convertToCSV(data || []);
     } else {
       return JSON.stringify(data, null, 2);
     }
@@ -355,26 +355,20 @@ export class ApiUtilities {
   private async checkRateLimit(keyHash: string, limit: number): Promise<boolean> {
     const windowStart = new Date(Date.now() - 3600000); // 1 hour ago
     
-    const { data, error } = await supabase
+    const { count, error } = await supabase
       .from('api_usage')
-      .select('count(*)')
+      .select('*', { count: 'exact', head: true })
       .eq('key_hash', keyHash)
       .gte('created_at', windowStart.toISOString());
 
     if (error) return false;
     
-    const currentUsage = data?.[0]?.count || 0;
+    const currentUsage = count || 0;
     return currentUsage < limit;
   }
 
   private async updateApiKeyUsage(keyHash: string): Promise<void> {
-    await supabase
-      .from('api_keys')
-      .update({
-        usage_count: supabase.rpc('increment_usage', { key_hash: keyHash }),
-        last_used: new Date().toISOString()
-      })
-      .eq('key_hash', keyHash);
+    await supabase.rpc('increment_usage', { key_hash: keyHash });
 
     await supabase
       .from('api_usage')

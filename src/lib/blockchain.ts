@@ -74,9 +74,15 @@ export const NETWORKS = {
   }
 };
 
+declare global {
+  interface Window {
+    ethereum?: any;
+  }
+}
+
 export class BlockchainService {
-  private provider: ethers.providers.Web3Provider | null = null;
-  private signer: ethers.Signer | null = null;
+  private provider: ethers.BrowserProvider | null = null;
+  private signer: ethers.JsonRpcSigner | null = null;
   private contract: ethers.Contract | null = null;
   private currentNetwork: string = 'ethereum';
 
@@ -87,13 +93,13 @@ export class BlockchainService {
 
     try {
       await window.ethereum.request({ method: 'eth_requestAccounts' });
-      this.provider = new ethers.providers.Web3Provider(window.ethereum);
-      this.signer = this.provider.getSigner();
+      this.provider = new ethers.BrowserProvider(window.ethereum);
+      this.signer = await this.provider.getSigner();
       
       const network = await this.provider.getNetwork();
-      this.currentNetwork = this.getNetworkName(network.chainId);
+      this.currentNetwork = this.getNetworkName(Number(network.chainId));
       
-      const networkConfig = NETWORKS[this.currentNetwork];
+      const networkConfig = NETWORKS[this.currentNetwork as keyof typeof NETWORKS];
       if (networkConfig) {
         this.contract = new ethers.Contract(
           networkConfig.contractAddress,
@@ -112,7 +118,7 @@ export class BlockchainService {
   async switchNetwork(networkName: string): Promise<boolean> {
     if (!this.provider) return false;
 
-    const network = NETWORKS[networkName];
+    const network = NETWORKS[networkName as keyof typeof NETWORKS];
     if (!network) return false;
 
     try {
@@ -148,8 +154,8 @@ export class BlockchainService {
       throw new Error('Wallet not connected');
     }
 
-    const amount = ethers.utils.parseEther(invoiceData.amount);
-    const tokenAddress = invoiceData.tokenAddress || ethers.constants.AddressZero;
+    const amount = ethers.parseEther(invoiceData.amount);
+    const tokenAddress = invoiceData.tokenAddress || ethers.ZeroAddress;
 
     try {
       const tx = await this.contract.createInvoice(
@@ -163,11 +169,24 @@ export class BlockchainService {
       );
 
       const receipt = await tx.wait();
-      const event = receipt.events?.find((e: any) => e.event === 'InvoiceCreated');
+      const event = receipt?.logs?.find((log: any) => {
+        try {
+          const parsed = this.contract?.interface.parseLog(log);
+          return parsed?.name === 'InvoiceCreated';
+        } catch {
+          return false;
+        }
+      });
+      
+      let invoiceHash = '';
+      if (event) {
+        const parsed = this.contract.interface.parseLog(event);
+        invoiceHash = parsed?.args?.invoiceHash || '';
+      }
       
       return {
         hash: tx.hash,
-        invoiceHash: event?.args?.invoiceHash || ''
+        invoiceHash
       };
     } catch (error) {
       console.error('Failed to create invoice:', error);
@@ -182,7 +201,7 @@ export class BlockchainService {
 
     try {
       const tx = await this.contract.payInvoice(invoiceHash, {
-        value: ethers.utils.parseEther(amount)
+        value: ethers.parseEther(amount)
       });
 
       await tx.wait();
@@ -203,9 +222,9 @@ export class BlockchainService {
       return {
         recipient: invoice.recipient,
         payer: invoice.payer,
-        amount: ethers.utils.formatEther(invoice.amount),
-        dueDate: invoice.dueDate.toNumber(),
-        createdAt: invoice.createdAt.toNumber(),
+        amount: ethers.formatEther(invoice.amount),
+        dueDate: Number(invoice.dueDate),
+        createdAt: Number(invoice.createdAt),
         tokenAddress: invoice.tokenAddress,
         isPaid: invoice.isPaid,
         isRefunded: invoice.isRefunded,
@@ -263,7 +282,7 @@ export class BlockchainService {
   }
 
   getNetworkName(chainId: number): string {
-    const network = Object.entries(NETWORKS).find(([_, config]) => config.chainId === chainId);
+    const network = Object.entries(NETWORKS).find(([, config]) => config.chainId === chainId);
     return network ? network[0] : 'unknown';
   }
 
@@ -272,21 +291,22 @@ export class BlockchainService {
   }
 
   getExplorerUrl(txHash: string): string {
-    const network = NETWORKS[this.currentNetwork];
+    const network = NETWORKS[this.currentNetwork as keyof typeof NETWORKS];
     return network ? `${network.explorerUrl}/tx/${txHash}` : '';
   }
 
   async getGasEstimate(method: string, params: any[]): Promise<string> {
-    if (!this.contract) {
+    if (!this.contract || !this.provider) {
       throw new Error('Wallet not connected');
     }
 
     try {
-      const gasLimit = await this.contract.estimateGas[method](...params);
-      const gasPrice = await this.provider!.getGasPrice();
-      const gasCost = gasLimit.mul(gasPrice);
+      const gasLimit = await this.contract[method].estimateGas(...params);
+      const feeData = await this.provider.getFeeData();
+      const gasPrice = feeData.gasPrice || ethers.parseUnits('20', 'gwei');
+      const gasCost = gasLimit * gasPrice;
       
-      return ethers.utils.formatEther(gasCost);
+      return ethers.formatEther(gasCost);
     } catch (error) {
       console.error('Failed to estimate gas:', error);
       return '0';
