@@ -10,6 +10,8 @@ import { PricingPlans } from './components/steps/PricingPlans';
 import { Payment } from './components/steps/Payment';
 import { Success } from './components/steps/Success';
 import { ProcessingAnimation } from './components/animations/ProcessingAnimation';
+import { ToastContainer } from './components/ui/Toast';
+import { useToast } from './hooks/useToast';
 import { UserFlow, InvoiceData, PricingPlan } from './types';
 
 function App() {
@@ -22,6 +24,8 @@ function App() {
     selectedPlan: null,
     uploadedFile: null
   });
+
+  const { toasts, removeToast } = useToast();
 
   const steps = [
     'landing',
@@ -168,6 +172,18 @@ function App() {
           <Success
             onStartNew={resetFlow}
             invoiceId={`TI-${Date.now()}`}
+            invoiceData={{
+              recipientEmail: userFlow.invoiceData.recipientEmail || '',
+              userEmail: userFlow.email,
+              invoiceNumber: userFlow.invoiceData.invoiceNumber || '',
+              amount: userFlow.invoiceData.amount || 0,
+              description: userFlow.invoiceData.description || '',
+              companyName: userFlow.invoiceData.companyName || '',
+              dueDate: userFlow.invoiceData.dueDate || '',
+              contractAddress: userFlow.invoiceData.smart_contract_address,
+              transactionHash: userFlow.invoiceData.blockchain_tx_hash
+            }}
+            userPlan={userFlow.selectedPlan?.id || 'basic'}
           />
         );
       
@@ -178,7 +194,10 @@ function App() {
 
   return (
     <div className="min-h-screen bg-black">
-      {/* Circular Progress Indicator - Only on Get Started flow - Natural positioning */}
+      {/* Toast Container */}
+      <ToastContainer toasts={toasts} onClose={removeToast} />
+
+      {/* Circular Progress Indicator - Only on Get Started flow */}
       {currentStep > 0 && currentStep < steps.length - 1 && (
         <div className="relative z-10 pt-20">
           <div className="max-w-4xl mx-auto px-6 py-4">

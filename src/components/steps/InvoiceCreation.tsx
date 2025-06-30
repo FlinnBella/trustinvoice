@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, ArrowLeft, Plus, Trash2 } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Plus, Trash2, Wallet } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Card } from '../ui/Card';
+import { BlockchainSelector } from '../ui/BlockchainSelector';
+import { BlockchainConnector } from '../blockchain/BlockchainConnector';
+import { LoadingSpinner } from '../ui/LoadingSpinner';
 import { InvoiceData, InvoiceItem } from '../../types';
 import { emailService } from '../../lib/email-service';
+import { useToast } from '../../hooks/useToast';
+import { useBlockchainStore } from '../../store/blockchainStore';
+import { unifiedBlockchainService, SupportedBlockchain } from '../../lib/blockchain-unified';
 
 interface InvoiceCreationProps {
   onNext: (invoiceData: Partial<InvoiceData>) => void;
@@ -29,6 +35,13 @@ export const InvoiceCreation: React.FC<InvoiceCreationProps> = ({
     dueDate: '',
     items: [{ description: '', quantity: 1, rate: 0, amount: 0 }]
   });
+
+  const [selectedBlockchain, setSelectedBlockchain] = useState<SupportedBlockchain>('ethereum');
+  const [showConnector, setShowConnector] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
+  
+  const { success, error } = useToast();
+  const { isConnected, currentBlockchain, algorandAccount } = useBlockchainStore();
 
   const updateField = (field: keyof InvoiceData, value: any) => {
     setInvoiceData(prev => ({ ...prev, [field]: value }));
@@ -61,33 +74,64 @@ export const InvoiceCreation: React.FC<InvoiceCreationProps> = ({
     return (invoiceData.items || []).reduce((total, item) => total + item.amount, 0);
   };
 
+  const handleBlockchainConnect = (blockchain: SupportedBlockchain) => {
+    setSelectedBlockchain(blockchain);
+    success('Blockchain Connected', `Connected to ${blockchain} network`);
+  };
+
   const handleNext = async () => {
     const total = calculateTotal();
     const finalInvoiceData = { ...invoiceData, amount: total };
     
-    // If this is a pro/premium plan, send contract deployment notification
-    if (userPlan !== 'basic' && invoiceData.recipientEmail) {
-      try {
-        await emailService.sendContractDeployedEmail(
-          userEmail, // Send to the invoice creator
-          userEmail,
-          {
-            invoiceNumber: invoiceData.invoiceNumber || '',
-            amount: total,
-            description: invoiceData.description || '',
-            companyName: invoiceData.companyName || '',
-            dueDate: invoiceData.dueDate || '',
-            contractAddress: `0x${Math.random().toString(16).substr(2, 40)}`, // Mock contract address
-            transactionHash: `0x${Math.random().toString(16).substr(2, 64)}` // Mock transaction hash
-          },
-          userPlan
-        );
-      } catch (error) {
-        console.error('Failed to send contract deployment email:', error);
-      }
-    }
+    setIsCreating(true);
     
-    onNext(finalInvoiceData);
+    try {
+      // Create blockchain invoice if Pro/Premium and connected
+      if (userPlan !== 'basic' && isConnected) {
+        const blockchainInvoice = await unifiedBlockchainService.createInvoice({
+          invoiceId: invoiceData.invoiceNumber || '',
+          recipient: invoiceData.recipientEmail || '',
+          amount: total,
+          dueDate: Math.floor(new Date(invoiceData.dueDate || '').getTime() / 1000),
+          description: invoiceData.description || '',
+          blockchain: currentBlockchain
+        }, algorandAccount || undefined);
+
+        finalInvoiceData.smart_contract_address = blockchainInvoice.contractAddress || blockchainInvoice.appId?.toString();
+        finalInvoiceData.blockchain_tx_hash = blockchainInvoice.txId;
+
+        success('Smart Contract Created', 'Invoice secured on blockchain');
+      }
+
+      // Send contract deployment notification if applicable
+      if (userPlan !== 'basic' && invoiceData.recipientEmail) {
+        try {
+          await emailService.sendContractDeployedEmail(
+            userEmail,
+            userEmail,
+            {
+              invoiceNumber: invoiceData.invoiceNumber || '',
+              amount: total,
+              description: invoiceData.description || '',
+              companyName: invoiceData.companyName || '',
+              dueDate: invoiceData.dueDate || '',
+              contractAddress: finalInvoiceData.smart_contract_address || '',
+              transactionHash: finalInvoiceData.blockchain_tx_hash || ''
+            },
+            userPlan
+          );
+        } catch (emailError) {
+          console.error('Failed to send contract deployment email:', emailError);
+        }
+      }
+      
+      onNext(finalInvoiceData);
+    } catch (err) {
+      console.error('Invoice creation failed:', err);
+      error('Creation Failed', err instanceof Error ? err.message : 'Unknown error');
+    } finally {
+      setIsCreating(false);
+    }
   };
 
   const isValid = invoiceData.companyName && invoiceData.description && invoiceData.dueDate;
@@ -164,6 +208,39 @@ export const InvoiceCreation: React.FC<InvoiceCreationProps> = ({
             </div>
           </div>
 
+          {/* Blockchain Selection for Pro/Premium */}
+          {userPlan !== 'basic' && (
+            <div className="mb-8 p-6 bg-blue-900/20 rounded-lg border border-blue-600/30">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-blue-300">🔗 Blockchain Security</h3>
+                {!isConnected && (
+                  <Button
+                    variant="outline"
+                    onClick={() => setShowConnector(true)}
+                    className="flex items-center space-x-2"
+                  >
+                    <Wallet size={16} />
+                    <span>Connect Wallet</span>
+                  </Button>
+                )}
+              </div>
+              
+              <BlockchainSelector
+                selectedBlockchain={selectedBlockchain}
+                onSelect={setSelectedBlockchain}
+                disabled={!isConnected}
+              />
+              
+              {isConnected && (
+                <div className="mt-4 p-3 bg-green-900/20 rounded-lg border border-green-600/30">
+                  <p className="text-sm text-green-300">
+                    ✅ Connected to {currentBlockchain} - Your invoice will be secured with a smart contract
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold text-white">Invoice Items</h3>
@@ -218,6 +295,7 @@ export const InvoiceCreation: React.FC<InvoiceCreationProps> = ({
                       value={`$${item.amount.toFixed(2)}`}
                       onChange={() => {}}
                       className="bg-gray-700"
+                      disabled
                     />
                   </div>
                   
@@ -244,15 +322,6 @@ export const InvoiceCreation: React.FC<InvoiceCreationProps> = ({
               </div>
             </div>
           </div>
-
-          {userPlan !== 'basic' && (
-            <div className="mt-6 p-4 bg-blue-900/20 rounded-lg border border-blue-600/30">
-              <h4 className="font-semibold text-blue-300 mb-2">🔗 Blockchain Features Enabled</h4>
-              <p className="text-sm text-blue-300">
-                This invoice will be secured with a smart contract and include advanced email tracking.
-              </p>
-            </div>
-          )}
         </Card>
 
         <div className="flex space-x-3">
@@ -260,6 +329,7 @@ export const InvoiceCreation: React.FC<InvoiceCreationProps> = ({
             variant="outline"
             onClick={onBack}
             className="flex items-center space-x-2 flex-1"
+            disabled={isCreating}
           >
             <ArrowLeft size={16} />
             <span>Back</span>
@@ -267,14 +337,26 @@ export const InvoiceCreation: React.FC<InvoiceCreationProps> = ({
           
           <Button
             onClick={handleNext}
-            disabled={!isValid}
+            disabled={!isValid || isCreating}
             className="flex items-center space-x-2 flex-2"
           >
-            <span>Continue</span>
-            <ArrowRight size={16} />
+            {isCreating ? (
+              <LoadingSpinner size="sm" />
+            ) : (
+              <>
+                <span>Continue</span>
+                <ArrowRight size={16} />
+              </>
+            )}
           </Button>
         </div>
       </motion.div>
+
+      <BlockchainConnector
+        isOpen={showConnector}
+        onClose={() => setShowConnector(false)}
+        onConnect={handleBlockchainConnect}
+      />
     </div>
   );
 };
